@@ -214,6 +214,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\SquareComponent.cpp">
+      <Filter>Reversi\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\BoardComponent.cpp">
       <Filter>Reversi\Source</Filter>
     </ClCompile>
@@ -1446,6 +1449,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\SquareComponent.h">
+      <Filter>Reversi\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\BoardComponent.h">
       <Filter>Reversi\Source</Filter>
     </ClInclude>

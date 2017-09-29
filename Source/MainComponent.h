@@ -50,7 +50,7 @@ private:
 
     //==============================================================================
     
-
+    const int labelHeight = 50;
 
     ScopedPointer<BoardComponent> boardComponent;
     ScopedPointer<Label> scoreLabel;

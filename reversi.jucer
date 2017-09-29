@@ -24,6 +24,10 @@
   </EXPORTFORMATS>
   <MAINGROUP id="a0m6ZvX1F" name="Reversi">
     <GROUP id="GVpTv8yA5" name="Source">
+      <FILE id="Mtgsvx" name="SquareComponent.cpp" compile="1" resource="0"
+            file="Source/SquareComponent.cpp"/>
+      <FILE id="Af2HZs" name="SquareComponent.h" compile="0" resource="0"
+            file="Source/SquareComponent.h"/>
       <FILE id="fWXB7v" name="BoardComponent.cpp" compile="1" resource="0"
             file="Source/BoardComponent.cpp"/>
       <FILE id="UWaztO" name="BoardComponent.h" compile="0" resource="0"

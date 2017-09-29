@@ -27,14 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //==============================================================================
 MainComponent::MainComponent ()
 {
-    
     addAndMakeVisible(boardComponent = new BoardComponent());
     addAndMakeVisible(scoreLabel = new Label("scoreLabel", "BLACK: 0 ||| WHITE: 0"));
-    int width = boardComponent->getWidth();
-    int height = boardComponent->getHeight();
-    int labelHeight = 50;
-    setSize (width, height + labelHeight);
-
+        
+    setSize (boardComponent->getWidth(), boardComponent->getHeight() + labelHeight);
 }
 
 MainComponent::~MainComponent()
@@ -55,24 +51,13 @@ void MainComponent::resized()
 
     int width = boardComponent->getWidth();
     int height = boardComponent->getHeight();
-    int labelHeight = 50;
 
     scoreLabel->setBounds(0, height, width, labelHeight);
     setSize(width, height + labelHeight);
-
-    //Rectangle<int> area(getLocalBounds().reduced(10));
-
-    //for (int i = 0; i < BOARD_SIZE; i++)
-    //    for (int j = 0; j < BOARD_SIZE; j++)
-    //    {
-    //        
-    //    }
-
 }
 
 void MainComponent::buttonClicked (Button* /*buttonThatWasClicked*/)
 {
-
 }
 
 

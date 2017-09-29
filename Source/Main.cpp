@@ -37,10 +37,8 @@ class ReversiWindow  : public DocumentWindow
 public:
     //==============================================================================
     ReversiWindow()
-        : DocumentWindow ("Reversi!",
-                          LookAndFeel::getDefaultLookAndFeel().findColour (ResizableWindow::backgroundColourId),
-                          DocumentWindow::allButtons,
-                          true)
+        : DocumentWindow ("Reversi!", LookAndFeel::getDefaultLookAndFeel().findColour (ResizableWindow::backgroundColourId),
+                          DocumentWindow::allButtons, true)
     {
         setContentOwned (new MainComponent(), true);
         centreWithSize (getWidth(), getHeight());
