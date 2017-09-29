@@ -220,6 +220,9 @@
     <ClCompile Include="..\..\Source\MainComponent.cpp">
       <Filter>Reversi\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Model.cpp">
+      <Filter>Reversi\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\sdks\JUCE-5.1.2\modules\juce_core\containers\juce_AbstractFifo.cpp">
       <Filter>Juce Modules\juce_core\containers</Filter>
     </ClCompile>
@@ -1438,6 +1441,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainComponent.h">
+      <Filter>Reversi\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Model.h">
       <Filter>Reversi\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\sdks\JUCE-5.1.2\modules\juce_core\containers\juce_AbstractFifo.h">

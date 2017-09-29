@@ -30,11 +30,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     show a component from the MainComponent.cpp file (you can open this file using
     the Jucer to edit it).
 */
-class HelloWorldWindow  : public DocumentWindow
+class ReversiWindow  : public DocumentWindow
 {
 public:
     //==============================================================================
-    HelloWorldWindow()
+    ReversiWindow()
         : DocumentWindow ("JUCE Hello World!",
                           LookAndFeel::getDefaultLookAndFeel().findColour (ResizableWindow::backgroundColourId),
                           DocumentWindow::allButtons,
@@ -50,7 +50,7 @@ public:
         setVisible (true);
     }
 
-    ~HelloWorldWindow()
+    ~ReversiWindow()
     {
         // (the content component will be deleted automatically, so no need to do it here)
     }
@@ -58,8 +58,6 @@ public:
     //==============================================================================
     void closeButtonPressed() override
     {
-        // When the user presses the close button, we'll tell the app to quit. This
-        // HelloWorldWindow object will be deleted by the JUCEHelloWorldApplication class.
         JUCEApplication::quit();
     }
 };
@@ -68,17 +66,17 @@ public:
 /** This is the application object that is started up when Juce starts. It handles
     the initialisation and shutdown of the whole application.
 */
-class JUCEHelloWorldApplication : public JUCEApplication
+class ReversiApplication : public JUCEApplication
 {
 public:
     //==============================================================================
-    JUCEHelloWorldApplication() {}
+    ReversiApplication() {}
 
     //==============================================================================
     void initialise (const String& commandLine) override
     {
         // For this demo, we'll just create the main window...
-        helloWorldWindow = new HelloWorldWindow();
+        reversiWindow = new ReversiWindow();
 
         /*  ..and now return, which will fall into to the main event
             dispatch loop, and this will run until something calls
@@ -91,17 +89,13 @@ public:
 
     void shutdown() override
     {
-        // This method is where you should clear-up your app's resources..
-
-        // The helloWorldWindow variable is a ScopedPointer, so setting it to a null
-        // pointer will delete the window.
-        helloWorldWindow = nullptr;
+        reversiWindow = nullptr;
     }
 
     //==============================================================================
     const String getApplicationName() override
     {
-        return "Hello World for JUCE";
+        return "Reversi!";
     }
 
     const String getApplicationVersion() override
@@ -121,10 +115,10 @@ public:
     }
 
 private:
-    ScopedPointer<HelloWorldWindow> helloWorldWindow;
+    ScopedPointer<ReversiWindow> reversiWindow;
 };
 
 
 //==============================================================================
 // This macro creates the application's main() function..
-START_JUCE_APPLICATION (JUCEHelloWorldApplication)
+START_JUCE_APPLICATION (ReversiApplication)
