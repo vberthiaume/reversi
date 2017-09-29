@@ -33,7 +33,7 @@ Board::Board()
 			board[i][j] = Square(i, j, Square::empty);
 		}
 	//need an even number of squares
-	assert(BOARD_SIZE % 2 != 0);
+	assert(BOARD_SIZE % 2 == 0);
 	int middle = BOARD_SIZE / 2;
     //put starting pieces
 	board[middle][middle].state	    = Square::black;

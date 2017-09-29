@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Board.h"
 
 class MainComponent  : public Component,
                        public Button::Listener
@@ -46,10 +47,11 @@ private:
 
 
     //==============================================================================
-    ScopedPointer<Label> helloWorldLabel;
-    ScopedPointer<TextButton> quitButton;
-    Path internalPath1;
+    //ScopedPointer<Label> helloWorldLabel;
+    //ScopedPointer<TextButton> quitButton;
+    //Path internalPath1;
 
+    Board board;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
