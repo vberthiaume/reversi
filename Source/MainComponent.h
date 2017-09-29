@@ -1,38 +1,33 @@
 /*
-  ==============================================================================
+==============================================================================
+Reversi!
 
-  This is an automatically generated GUI class created by the Projucer!
+Copyright (C) 2017  BMP4
 
-  Be careful when adding custom code to these files, as only the code within
-  the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
-  and re-saved.
+Developer: Vincent Berthiaume
 
-  Created with Projucer version: 4.2.1
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-  ------------------------------------------------------------------------------
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  The Projucer is part of the JUCE library - "Jules' Utility Class Extensions"
-  Copyright (c) 2015 - ROLI Ltd.
-
-  ==============================================================================
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+==============================================================================
 */
 
 #pragma once
 
-//[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
-//[/Headers]
 
 
 
-//==============================================================================
-/**
-                                                                    //[Comments]
-    An auto-generated component, created by the Jucer.
 
-    Describe your class and how it works here!
-                                                                    //[/Comments]
-*/
 class MainComponent  : public Component,
                        public Button::Listener
 {
@@ -42,8 +37,7 @@ public:
     ~MainComponent();
 
     //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
-    //[/UserMethods]
+
 
     void paint (Graphics& g) override;
     void resized() override;
@@ -52,8 +46,7 @@ public:
 
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
-    //[/UserVariables]
+
 
     //==============================================================================
     ScopedPointer<Label> helloWorldLabel;
@@ -65,5 +58,4 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
 
-//[EndFile] You can add extra defines here...
-//[/EndFile]
+
