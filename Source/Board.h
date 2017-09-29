@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BOARD_SIZE
 #define BOARD_SIZE 8
 #endif
+
+//static const int BOARD_SIZE = 8;
 #include "Square.h"
 
 //struct Square;
@@ -38,6 +40,8 @@ public:
 
 	bool PlaceWhite(Square &square);
 	bool PlaceBlack(Square &square);
+
+    int GetBoardSize() { return BOARD_SIZE; }
 
 private:
 	bool PlaceColour(Square &square);

@@ -24,12 +24,16 @@
   </EXPORTFORMATS>
   <MAINGROUP id="a0m6ZvX1F" name="Reversi">
     <GROUP id="GVpTv8yA5" name="Source">
+      <FILE id="fWXB7v" name="BoardComponent.cpp" compile="1" resource="0"
+            file="Source/BoardComponent.cpp"/>
+      <FILE id="UWaztO" name="BoardComponent.h" compile="0" resource="0"
+            file="Source/BoardComponent.h"/>
       <FILE id="wm1yCLKYK" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="zADfb2" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="s47E1z" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
-      <FILE id="THsXI0" name="Model.cpp" compile="1" resource="0" file="Source/Model.cpp"/>
-      <FILE id="dG0jYv" name="Model.h" compile="0" resource="0" file="Source/Model.h"/>
+      <FILE id="THsXI0" name="Board.cpp" compile="1" resource="0" file="Source/Board.cpp"/>
+      <FILE id="dG0jYv" name="Board.h" compile="0" resource="0" file="Source/Board.h"/>
       <FILE id="Qt0hcb" name="Square.cpp" compile="1" resource="0" file="Source/Square.cpp"/>
       <FILE id="FDJE1P" name="Square.h" compile="0" resource="0" file="Source/Square.h"/>
     </GROUP>
