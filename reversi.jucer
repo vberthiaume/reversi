@@ -30,6 +30,8 @@
       <FILE id="s47E1z" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="THsXI0" name="Model.cpp" compile="1" resource="0" file="Source/Model.cpp"/>
       <FILE id="dG0jYv" name="Model.h" compile="0" resource="0" file="Source/Model.h"/>
+      <FILE id="Qt0hcb" name="Square.cpp" compile="1" resource="0" file="Source/Square.cpp"/>
+      <FILE id="FDJE1P" name="Square.h" compile="0" resource="0" file="Source/Square.h"/>
     </GROUP>
     <GROUP id="{E9B7EAEF-6D5D-1CCF-78AE-BED85FFD3BDB}" name="Resources">
       <FILE id="J3WGof" name="reversigame_reversi_6124.png" compile="0" resource="1"
@@ -38,11 +40,11 @@
   </MAINGROUP>
   <JUCEOPTIONS/>
   <MODULES>
-    <MODULE id="juce_core" showAllCode="1"/>
-    <MODULE id="juce_data_structures" showAllCode="1"/>
-    <MODULE id="juce_events" showAllCode="1"/>
-    <MODULE id="juce_graphics" showAllCode="1"/>
-    <MODULE id="juce_gui_basics" showAllCode="1"/>
-    <MODULE id="juce_gui_extra" showAllCode="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
 </JUCERPROJECT>
