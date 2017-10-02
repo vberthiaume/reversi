@@ -15,7 +15,7 @@
 #include "SquareComponent.h";
 
 
-class BoardComponent : public Component
+class BoardComponent : public Component, public SquareComponent::Listener
 {
 public:
     BoardComponent();
@@ -24,10 +24,14 @@ public:
 
     void resized() override;
 
+    void buttonClicked(Button* buttonThatWasClicked) override;
+
 private:
     void addSquare(Square::SquareState state, int x, int y)
     {
-        addAndMakeVisible(items.add(new SquareComponent(state, x, y)));
+        SquareComponent *squareComp = new SquareComponent(state, x, y);
+        addAndMakeVisible(items.add(squareComp));
+        squareComp->addListener(this);
     }
 
     OwnedArray<SquareComponent> items;

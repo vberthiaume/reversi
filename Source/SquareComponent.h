@@ -47,8 +47,7 @@ public:
     SquareComponent(Square::SquareState p_state, int p_x, int p_y)
         : TextButton("square")
         , state(p_state)
-        , x(p_x)
-        , y(p_y)
+        , coordinates(p_x, p_y)
     {}
 
     void paint(Graphics& g) override
@@ -72,14 +71,20 @@ public:
         g.setColour(Colours::purple);
     }
 
-    void GetPosition(int &p_x_OUT, int &p_y_OUT)
+    //void GetPosition(int &p_x_OUT, int &p_y_OUT)
+    //{
+    //    p_x_OUT = x;
+    //    p_y_OUT = y;
+    //}
+
+    SquareCoordinates getCoordinates() { return coordinates; }
+
+    void setState(Square::SquareState p_state)
     {
-        p_x_OUT = x;
-        p_y_OUT = y;
+        state = p_state;
     }
 
 private:
     Square::SquareState state;
-    int x;
-    int y;
+    SquareCoordinates coordinates;
 };

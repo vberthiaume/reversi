@@ -32,19 +32,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //struct Square;
 
+
+
 class Board
 {
 public:
 	Board();
 	~Board();
 
-	bool PlaceWhite(Square &square);
-	bool PlaceBlack(Square &square);
+	/*bool PlaceWhite(Square &square);
+	bool PlaceBlack(Square &square);*/
+
+    bool PlaceWhite(SquareCoordinates point);
+    bool PlaceBlack(SquareCoordinates point);
 
     int GetBoardSize() { return BOARD_SIZE; }
 
 private:
-	bool PlaceColour(Square &square);
+	bool PlaceColour(Square &square, Square::SquareState colour);
 
 	Square board[BOARD_SIZE][BOARD_SIZE];
 };

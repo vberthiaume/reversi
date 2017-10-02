@@ -47,10 +47,10 @@ Board::~Board()
 {
 }
 
-bool Board::PlaceColour(Square &square)
+bool Board::PlaceColour(Square &square, Square::SquareState colour)
 {
 	bool attemptBlack;
-	switch (square.state)
+	switch (colour)
 	{
 	case Square::black:
 		attemptBlack = true;
@@ -75,18 +75,20 @@ bool Board::PlaceColour(Square &square)
 	return true;
 }
 
-bool Board::PlaceWhite(Square &square)
+bool Board::PlaceWhite(SquareCoordinates point)
 {
+    Square &square = board[point.x][point.y];
 	if (square.state == Square::empty)
-		return PlaceColour(square);
+		return PlaceColour(square, Square::white);
 	else
 		return false;
 }
 
-bool Board::PlaceBlack(Square &square)
+bool Board::PlaceBlack(SquareCoordinates point)
 {
+    Square &square = board[point.x][point.y];
 	if (square.state == Square::empty)
-		return PlaceColour(square);
+		return PlaceColour(square, Square::black);
 	else
 		return false;
 }

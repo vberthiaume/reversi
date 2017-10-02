@@ -24,6 +24,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 #include <utility>
 
+//NOTE: I could have gone with std::pair, but I find its usage pretty awkward.
+struct SquareCoordinates
+{
+    //SquareCoordinates()
+    //    : x(0)
+    //    , y(0)
+    //{}
+
+    SquareCoordinates(int p_x = 0, int p_y = 0)
+        : x(p_x)
+        , y(p_y)
+    {}
+
+    int x;
+    int y;
+};
+
 struct Square
 {
 	enum SquareState
@@ -34,20 +51,24 @@ struct Square
 	};
 
 	SquareState state;
-	int x;
-	int y;
+    SquareCoordinates coordinates;
 
 	Square()
+        :state(empty)
 	{
-		state = empty;
-		x = 0;
-		y = 0;
 	}
 
-	Square(int p_x, int p_y, SquareState p_state)
+	Square(SquareCoordinates p_coordinates, SquareState p_state)
 	{
-		x = p_x;
-		y = p_y;
+        coordinates.x = p_coordinates.x;
+        coordinates.y = p_coordinates.y;
 		state = p_state;
 	}
+
+    Square(int x, int y, SquareState p_state)
+    {
+        coordinates.x = x;
+        coordinates.y = y;
+        state = p_state;
+    }
 };
