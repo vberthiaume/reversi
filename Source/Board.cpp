@@ -39,19 +39,17 @@ void Board::initBoard()
 
     for (int i = 0; i < BOARD_SIZE; ++i)
         for (int j = 0; j < BOARD_SIZE; ++j)
-        {
             board[i][j] = Square(i, j, Square::empty);
-        }
 
     //need an even number of squares
     assert(BOARD_SIZE % 2 == 0);
     int middle = BOARD_SIZE / 2;
 
     //put starting pieces
-    board[middle][middle].state = Square::black;
+    board[middle][middle].state         = Square::black;
     board[middle - 1][middle - 1].state = Square::black;
-    board[middle - 1][middle].state = Square::white;
-    board[middle][middle - 1].state = Square::white;
+    board[middle - 1][middle].state     = Square::white;
+    board[middle][middle - 1].state     = Square::white;
 }
 
 Square::SquareState Board::placeChip(SquareCoordinates point)
@@ -68,12 +66,11 @@ Square::SquareState Board::placeChip(SquareCoordinates point)
         // a square of the same color or an empty one
         //if you get an empt
         //attempt to search for another square of the same color in all 8 directions
-        Square::SquareState state = isBlackTurn ? Square::black : Square::white;
+        square.state = isBlackTurn ? Square::black : Square::white;
         isBlackTurn = !isBlackTurn;
-        return state;
     }
-    else
-        return Square::empty;
+     
+    return square.state;
 }
 
 Square::SquareState Board::getSquareState(SquareCoordinates coordinates)
