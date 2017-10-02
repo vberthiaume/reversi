@@ -37,23 +37,25 @@ public:
 
     void paint(Graphics& g) override
     {
+        g.fillAll(Colours::saddlebrown);
         switch (state)
         {
         case Square::empty:
-            g.fillAll(Colours::grey);
             break;
         case Square::black:
-            g.fillAll(Colours::black);
+            g.setColour(Colours::black);
+            g.fillEllipse(getLocalBounds().toFloat());
             break;
         case Square::white:
-            g.fillAll(Colours::white);
+            g.setColour(Colours::white);
+            g.fillEllipse(getLocalBounds().toFloat());
             break;
         default:
             jassertfalse;
             break;
         }
 
-        g.setColour(Colours::purple);
+        
     }
 
     SquareCoordinates getCoordinates() { return coordinates; }

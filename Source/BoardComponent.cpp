@@ -70,8 +70,8 @@ void BoardComponent::resized()
 {
     Grid grid;
 
-    grid.rowGap     = 5_px;
-    grid.columnGap  = 5_px;
+    grid.rowGap     = 2_px;
+    grid.columnGap  = 2_px;
 
     for (int i = 0; i < board.getBoardSize(); ++i)
     {
