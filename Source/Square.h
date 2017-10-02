@@ -66,4 +66,8 @@ struct Square
         coordinates.y = y;
         state = p_state;
     }
+
+    SquareState getState() { return state; }
+
+    void setState(SquareState p_state) { state = p_state; }
 };

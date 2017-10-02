@@ -53,9 +53,7 @@ public:
         default:
             jassertfalse;
             break;
-        }
-
-        
+        }        
     }
 
     SquareCoordinates getCoordinates() { return coordinates; }

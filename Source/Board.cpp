@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Board.h"
 #include "assert.h"
+#include <vector>
 
 Board::Board()
     : changed(false)
@@ -55,9 +56,9 @@ void Board::initBoard()
     changed = true;
 }
 
-Square::SquareState Board::placeChip(SquareCoordinates point)
+Square::SquareState Board::placeChip(SquareCoordinates coordinate)
 {
-    Square &square = board[point.x][point.y];
+    Square &square = board[coordinate.x][coordinate.y];
 
     if (square.state == Square::empty)
     {
@@ -69,12 +70,44 @@ Square::SquareState Board::placeChip(SquareCoordinates point)
         // a square of the same color or an empty one
         //if you get an empt
         //attempt to search for another square of the same color in all 8 directions
+
+        searchLeft(coordinate);
+
+
+
+
         square.state = isBlackTurn ? Square::black : Square::white;
         isBlackTurn = !isBlackTurn;
         changed = true;
     }
      
     return square.state;
+}
+
+void Board::searchLeft(SquareCoordinates coordinates)
+{
+     Square::SquareState currentPlayer = isBlackTurn ? Square::black : Square::white;
+    Square::SquareState otherPlayer   = isBlackTurn ? Square::white : Square::black;
+
+    //bool foundOppositeColour = false;
+    //bool foundSameColour = false;
+    std::vector<Square> squareCoordinatesToTurn;
+    
+    for (int i = coordinates.x-1; i > 0; --i)
+    {
+        Square &curSquare = board[i][coordinates.y];
+        if (curSquare.getState() == otherPlayer)
+            squareCoordinatesToTurn.push_back(board[i][coordinates.y]);
+        else if (curSquare.getState() == currentPlayer && squareCoordinatesToTurn.size() > 0)
+        {
+            for (auto &square : squareCoordinatesToTurn)
+                square.setState(currentPlayer);
+            changed = true;
+            return;
+        }
+        else if (curSquare.getState() == Square::empty)
+            return;
+    }
 }
 
 Square::SquareState Board::getSquareState(SquareCoordinates coordinates)
