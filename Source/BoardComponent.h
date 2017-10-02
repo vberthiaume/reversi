@@ -27,7 +27,7 @@ public:
 private:
     void addSquare(Square::SquareState state, int x, int y)
     {
-        addAndMakeVisible(items.add(new SquareComponent(state)));
+        addAndMakeVisible(items.add(new SquareComponent(state, x, y)));
     }
 
     OwnedArray<SquareComponent> items;
