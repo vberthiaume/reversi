@@ -63,7 +63,7 @@ void BoardComponent::buttonClicked(Button* buttonThatWasClicked)
     {
         if (buttonThatWasClicked == squareComp)
         {
-            if (board.PlaceBlack(squareComp->getCoordinates()));
+            if (board.PlaceBlack(squareComp->getCoordinates()))
                 squareComp->setState(Square::black);
         }
     }

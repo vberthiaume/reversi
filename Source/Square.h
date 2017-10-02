@@ -27,11 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //NOTE: I could have gone with std::pair, but I find its usage pretty awkward.
 struct SquareCoordinates
 {
-    //SquareCoordinates()
-    //    : x(0)
-    //    , y(0)
-    //{}
-
     SquareCoordinates(int p_x = 0, int p_y = 0)
         : x(p_x)
         , y(p_y)

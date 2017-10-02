@@ -1,45 +1,30 @@
 /*
-  ==============================================================================
+==============================================================================
+Reversi!
 
-    SquareComponent.h
-    Created: 29 Sep 2017 3:46:09pm
-    Author:  barth
+Copyright (C) 2017  BMP4
 
-  ==============================================================================
+Developer: Vincent Berthiaume
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+==============================================================================
 */
 
 #pragma once
+
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Square.h"
-
-//struct SquareComponent : public Component
-//{
-//    SquareComponent(Square::SquareState p_state)
-//        : state(p_state)
-//    {}
-//
-//    void paint(Graphics& g) override
-//    {
-//        switch (state)
-//        {
-//        case Square::empty:
-//            g.fillAll(Colours::grey);
-//            break;
-//        case Square::black:
-//            g.fillAll(Colours::black);
-//            break;
-//        case Square::white:
-//            g.fillAll(Colours::white);
-//            break;
-//        default:
-//            jassertfalse;
-//            break;
-//        }
-//
-//        g.setColour(Colours::purple);
-//    }
-//    Square::SquareState state;
-//};
 
 struct SquareComponent : public TextButton
 {
@@ -70,12 +55,6 @@ public:
 
         g.setColour(Colours::purple);
     }
-
-    //void GetPosition(int &p_x_OUT, int &p_y_OUT)
-    //{
-    //    p_x_OUT = x;
-    //    p_y_OUT = y;
-    //}
 
     SquareCoordinates getCoordinates() { return coordinates; }
 
