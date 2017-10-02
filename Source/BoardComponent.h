@@ -28,10 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SquareComponent.h"
 
 
-class BoardComponent : public Component, public SquareComponent::Listener
+class BoardComponent 
+    : public Component
+    , public SquareComponent::Listener
+    , private Timer
 {
 public:
     BoardComponent();
+
+    void BoardComponent::initBoard();
 
     void paint(Graphics& g) override;
 
@@ -39,9 +44,13 @@ public:
 
     void buttonClicked(Button* buttonThatWasClicked) override;
 
-private:
-    void addSquare(Square::SquareState state, SquareCoordinates coordinates);
+    void timerCallback() override;
 
-    OwnedArray<SquareComponent> squareComponents;
+private:
+    //void addSquare(Square::SquareState state, SquareCoordinates coordinates);
+    void updateWholeBoard();
+
+    /*OwnedArray<SquareComponent> squareComponents;*/
+    SquareComponent squareComponents[BOARD_SIZE][BOARD_SIZE];
     Board board;
 };

@@ -41,9 +41,14 @@ public:
 
     Square::SquareState getSquareState(SquareCoordinates point);
 
-    int getBoardSize() { return BOARD_SIZE; }
+    int getBoardSize()  { return BOARD_SIZE; }
+    
+    bool isChanged()    { return changed; }
+
+    void clearIsChanged() { changed = false; }
 
 private:
     bool isBlackTurn;
+    bool changed;
 	Square board[BOARD_SIZE][BOARD_SIZE];
 };

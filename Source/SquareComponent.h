@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct SquareComponent : public TextButton
 {
 public:
-    SquareComponent(Square::SquareState p_state, SquareCoordinates p_coordinates)
+    SquareComponent(Square::SquareState p_state = Square::SquareState::empty, SquareCoordinates p_coordinates = SquareCoordinates(0,0))
         : TextButton("square")
         , state(p_state)
         , coordinates(p_coordinates)
@@ -61,6 +61,12 @@ public:
     void setState(Square::SquareState p_state)
     {
         state = p_state;
+    }
+
+    void setCoordinates(int p_x, int p_y)
+    {
+        coordinates.x = p_x;
+        coordinates.y = p_y;
     }
 
 private:

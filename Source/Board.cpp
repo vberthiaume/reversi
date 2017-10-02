@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "assert.h"
 
 Board::Board()
+    : changed(false)
 {
     initBoard();
 }
@@ -50,6 +51,8 @@ void Board::initBoard()
     board[middle - 1][middle - 1].state = Square::black;
     board[middle - 1][middle].state     = Square::white;
     board[middle][middle - 1].state     = Square::white;
+
+    changed = true;
 }
 
 Square::SquareState Board::placeChip(SquareCoordinates point)
@@ -68,6 +71,7 @@ Square::SquareState Board::placeChip(SquareCoordinates point)
         //attempt to search for another square of the same color in all 8 directions
         square.state = isBlackTurn ? Square::black : Square::white;
         isBlackTurn = !isBlackTurn;
+        changed = true;
     }
      
     return square.state;

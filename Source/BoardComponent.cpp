@@ -25,23 +25,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 BoardComponent::BoardComponent()
 {
+    startTimer(100);
+    setSize(600, 600);
+    for (int i = 0; i < board.getBoardSize(); ++i)
+    {
+        for (int j = 0; j < board.getBoardSize(); ++j)
+        {
+            SquareComponent &squareComp = squareComponents[i][j];
+            squareComp.setState(Square::empty);
+            squareComp.setCoordinates(i, j);
+            squareComp.addListener(this);
+            addAndMakeVisible(squareComp);
+        }
+    }
+}
+
+void BoardComponent::timerCallback()
+{
+    if (board.isChanged())
+    {
+        updateWholeBoard();
+        board.clearIsChanged();
+    }
+}
+
+void BoardComponent::updateWholeBoard()
+{
     for (int i = 0; i < board.getBoardSize(); ++i)
         for (int j = 0; j < board.getBoardSize(); ++j)
         {
             SquareCoordinates coordinates(i, j);
-            /*addSquare(Square::SquareState::empty, i, j);*/
-            addSquare(board.getSquareState(coordinates), coordinates);
+            squareComponents[i][j].setState(board.getSquareState(coordinates));
+            squareComponents[i][j].repaint();
         }
-
-    setSize(600, 600);
 }
 
-void BoardComponent::addSquare(Square::SquareState state, SquareCoordinates coordinates)
-{
-    SquareComponent *squareComp = new SquareComponent(state, coordinates);
-    addAndMakeVisible(squareComponents.add(squareComp));
-    squareComp->addListener(this);
-}
 
 void BoardComponent::paint(Graphics& g) 
 {
@@ -61,8 +79,9 @@ void BoardComponent::resized()
         grid.templateColumns.add(Grid::TrackInfo(1_fr));
     }
 
-    for (auto & squareComp : squareComponents)
-        grid.items.add(squareComp);
+    for (int i = 0; i < board.getBoardSize(); ++i)
+        for (int j = 0; j < board.getBoardSize(); ++j)
+            grid.items.add(squareComponents[i][j]);
 
     grid.performLayout(getLocalBounds());
 }
@@ -70,12 +89,15 @@ void BoardComponent::resized()
 void BoardComponent::buttonClicked(Button* buttonThatWasClicked)
 {
     //TODO use a map or something more intelligent
-    for (SquareComponent *squareComp : squareComponents)
-    {
-        if (buttonThatWasClicked == squareComp)
+    for (int i = 0; i < board.getBoardSize(); ++i)
+        for (int j = 0; j < board.getBoardSize(); ++j)
         {
-            squareComp->setState(board.placeChip(squareComp->getCoordinates()));
-            return;
+            SquareComponent &squareComp = squareComponents[i][j];
+            if (buttonThatWasClicked == &squareComp)
+            {
+                squareComp.setState(board.placeChip(squareComp.getCoordinates()));
+                return;
+            }
         }
-    }
+    
 }
