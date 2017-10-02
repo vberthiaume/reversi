@@ -29,10 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct SquareComponent : public TextButton
 {
 public:
-    SquareComponent(Square::SquareState p_state, int p_x, int p_y)
+    SquareComponent(Square::SquareState p_state, SquareCoordinates p_coordinates)
         : TextButton("square")
         , state(p_state)
-        , coordinates(p_x, p_y)
+        , coordinates(p_coordinates)
     {}
 
     void paint(Graphics& g) override

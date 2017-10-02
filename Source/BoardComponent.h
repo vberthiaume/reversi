@@ -40,12 +40,7 @@ public:
     void buttonClicked(Button* buttonThatWasClicked) override;
 
 private:
-    void addSquare(Square::SquareState state, int x, int y)
-    {
-        SquareComponent *squareComp = new SquareComponent(state, x, y);
-        addAndMakeVisible(squareComponents.add(squareComp));
-        squareComp->addListener(this);
-    }
+    void addSquare(Square::SquareState state, SquareCoordinates coordinates);
 
     OwnedArray<SquareComponent> squareComponents;
     Board board;

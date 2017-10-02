@@ -64,7 +64,6 @@ public:
     //==============================================================================
     ReversiApplication() {}
 
-    //==============================================================================
     void initialise (const String& /*commandLine*/) override
     {
         reversiWindow = new ReversiWindow();

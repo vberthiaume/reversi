@@ -27,9 +27,20 @@ BoardComponent::BoardComponent()
 {
     for (int i = 0; i < board.getBoardSize(); ++i)
         for (int j = 0; j < board.getBoardSize(); ++j)
-            addSquare(Square::SquareState::empty, i, j);
+        {
+            SquareCoordinates coordinates(i, j);
+            /*addSquare(Square::SquareState::empty, i, j);*/
+            addSquare(board.getSquareState(coordinates), coordinates);
+        }
 
     setSize(600, 600);
+}
+
+void BoardComponent::addSquare(Square::SquareState state, SquareCoordinates coordinates)
+{
+    SquareComponent *squareComp = new SquareComponent(state, coordinates);
+    addAndMakeVisible(squareComponents.add(squareComp));
+    squareComp->addListener(this);
 }
 
 void BoardComponent::paint(Graphics& g) 
@@ -64,6 +75,7 @@ void BoardComponent::buttonClicked(Button* buttonThatWasClicked)
         if (buttonThatWasClicked == squareComp)
         {
             squareComp->setState(board.placeChip(squareComp->getCoordinates()));
+            return;
         }
     }
 }

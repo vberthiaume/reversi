@@ -39,6 +39,8 @@ public:
 
     Square::SquareState placeChip(SquareCoordinates point);
 
+    Square::SquareState getSquareState(SquareCoordinates point);
+
     int getBoardSize() { return BOARD_SIZE; }
 
 private:

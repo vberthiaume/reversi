@@ -76,3 +76,7 @@ Square::SquareState Board::placeChip(SquareCoordinates point)
         return Square::empty;
 }
 
+Square::SquareState Board::getSquareState(SquareCoordinates coordinates)
+{
+    return board[coordinates.x][coordinates.y].state;
+}
