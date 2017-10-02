@@ -27,68 +27,108 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Board::Board()
 {
-	for (int i = 0; i < BOARD_SIZE; ++i)
-		for (int j = 0; j < BOARD_SIZE; ++j)
-		{
-			board[i][j] = Square(i, j, Square::empty);
-		}
-	//need an even number of squares
-	assert(BOARD_SIZE % 2 == 0);
-	int middle = BOARD_SIZE / 2;
-
-    //put starting pieces
-	board[middle][middle].state	    = Square::black;
-	board[middle-1][middle-1].state = Square::black;
-	board[middle-1][middle].state   = Square::white;
-	board[middle][middle - 1].state = Square::white;
+    initBoard();
 }
 
 Board::~Board()
 {
 }
 
-bool Board::PlaceColour(Square &square, Square::SquareState colour)
+void Board::initBoard()
 {
-	bool attemptBlack;
-	switch (colour)
-	{
-	case Square::black:
-		attemptBlack = true;
-		break;
-	case Square::white:
-		attemptBlack = false;
-		break;
-	case Square::empty:
-	default:
-		assert(false);
-		return false;
-	}
+    isBlackTurn = true;
 
-	//based on square position, search in each of 8 directions for:
-		// need to first find a square of the opposite color, if so add this square to a vector of chips to turn else return false
-		// continue adding squares of opposite color to vector
-		// if we find a chip of our color, 
+    for (int i = 0; i < BOARD_SIZE; ++i)
+        for (int j = 0; j < BOARD_SIZE; ++j)
+        {
+            board[i][j] = Square(i, j, Square::empty);
+        }
 
-		// a square of the same color or an empty one
-	//if you get an empt
-	//attempt to search for another square of the same color in all 8 directions
-	return true;
+    //need an even number of squares
+    assert(BOARD_SIZE % 2 == 0);
+    int middle = BOARD_SIZE / 2;
+
+    //put starting pieces
+    board[middle][middle].state = Square::black;
+    board[middle - 1][middle - 1].state = Square::black;
+    board[middle - 1][middle].state = Square::white;
+    board[middle][middle - 1].state = Square::white;
 }
 
-bool Board::PlaceWhite(SquareCoordinates point)
+//Square::SquareState Board::PlaceColour(Square &square, Square::SquareState colour)
+//{
+//	bool attemptBlack;
+//	switch (colour)
+//	{
+//	case Square::black:
+//		attemptBlack = true;
+//		break;
+//	case Square::white:
+//		attemptBlack = false;
+//		break;
+//	case Square::empty:
+//	default:
+//		assert(false);
+//		return false;
+//	}
+//
+//	//based on square position, search in each of 8 directions for:
+//		// need to first find a square of the opposite color, if so add this square to a vector of chips to turn else return false
+//		// continue adding squares of opposite color to vector
+//		// if we find a chip of our color, 
+//
+//		// a square of the same color or an empty one
+//	//if you get an empt
+//	//attempt to search for another square of the same color in all 8 directions
+//	return true;
+//}
+
+Square::SquareState Board::placeChip(SquareCoordinates point)
 {
     Square &square = board[point.x][point.y];
-	if (square.state == Square::empty)
-		return PlaceColour(square, Square::white);
-	else
-		return false;
+
+    if (square.state == Square::empty)
+    {
+        //based on square position, search in each of 8 directions for:
+        // need to first find a square of the opposite color, if so add this square to a vector of chips to turn else return false
+        // continue adding squares of opposite color to vector
+        // if we find a chip of our color, 
+
+        // a square of the same color or an empty one
+        //if you get an empt
+        //attempt to search for another square of the same color in all 8 directions
+        Square::SquareState state = isBlackTurn ? Square::black : Square::white;
+        isBlackTurn = !isBlackTurn;
+        return state;
+    }
+    else
+        return Square::empty;
 }
 
-bool Board::PlaceBlack(SquareCoordinates point)
-{
-    Square &square = board[point.x][point.y];
-	if (square.state == Square::empty)
-		return PlaceColour(square, Square::black);
-	else
-		return false;
-}
+//bool Board::PlaceWhite(SquareCoordinates point)
+//{
+//    Square &square = board[point.x][point.y];
+//	if (square.state == Square::empty)
+//		return PlaceColour(square, Square::white);
+//	else
+//		return false;
+//}
+//
+//bool Board::PlaceBlack(SquareCoordinates point)
+//{
+//    Square &square = board[point.x][point.y];
+//	if (square.state == Square::empty)
+//		return PlaceColour(square, Square::black);
+//	else
+//		return false;
+//}
+
+//Square::SquareState Board::placeChip(SquareCoordinates point)
+//{
+//    Square &square = board[point.x][point.y];
+//    if (square.state == Square::empty)
+//        return isBlackTurn ? PlaceColour(square, Square::black) : PlaceColour(square, Square::white);
+//    else
+//        return Square::empty;
+//
+//}

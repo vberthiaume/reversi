@@ -36,20 +36,12 @@ public:
     MainComponent ();
     ~MainComponent();
 
-    //==============================================================================
-
-
     void paint (Graphics& g) override;
     void resized() override;
     void buttonClicked (Button* buttonThatWasClicked) override;
 
-
-
 private:
 
-
-    //==============================================================================
-    
     const int labelHeight = 50;
 
     ScopedPointer<BoardComponent> boardComponent;

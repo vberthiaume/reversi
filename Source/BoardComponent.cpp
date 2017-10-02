@@ -25,8 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 BoardComponent::BoardComponent()
 {
-    for (int i = 0; i < board.GetBoardSize(); ++i)
-        for (int j = 0; j < board.GetBoardSize(); ++j)
+    for (int i = 0; i < board.getBoardSize(); ++i)
+        for (int j = 0; j < board.getBoardSize(); ++j)
             addSquare(Square::SquareState::empty, i, j);
 
     setSize(600, 600);
@@ -44,14 +44,14 @@ void BoardComponent::resized()
     grid.rowGap     = 5_px;
     grid.columnGap  = 5_px;
 
-    for (int i = 0; i < board.GetBoardSize(); ++i)
+    for (int i = 0; i < board.getBoardSize(); ++i)
     {
         grid.templateRows.add(Grid::TrackInfo(1_fr));
         grid.templateColumns.add(Grid::TrackInfo(1_fr));
     }
 
-    for (auto & item : items)
-        grid.items.add(item);
+    for (auto & squareComp : squareComponents)
+        grid.items.add(squareComp);
 
     grid.performLayout(getLocalBounds());
 }
@@ -59,12 +59,11 @@ void BoardComponent::resized()
 void BoardComponent::buttonClicked(Button* buttonThatWasClicked)
 {
     //TODO use a map or something more intelligent
-    for (SquareComponent *squareComp : items)
+    for (SquareComponent *squareComp : squareComponents)
     {
         if (buttonThatWasClicked == squareComp)
         {
-            if (board.PlaceBlack(squareComp->getCoordinates()))
-                squareComp->setState(Square::black);
+            squareComp->setState(board.placeChip(squareComp->getCoordinates()));
         }
     }
 }

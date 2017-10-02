@@ -21,6 +21,22 @@
         <MODULEPATH id="juce_core" path="..\..\sdks\JUCE-5.1.2\modules"/>
       </MODULEPATHS>
     </VS2017>
+    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="J3WGof" bigIcon="J3WGof">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       isDebug="1" optimisation="1" targetName="Reversi"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
+                       isDebug="0" optimisation="3" targetName="Reversi"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="..\..\sdks\JUCE-5.1.2\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="..\..\sdks\JUCE-5.1.2\modules"/>
+        <MODULEPATH id="juce_graphics" path="..\..\sdks\JUCE-5.1.2\modules"/>
+        <MODULEPATH id="juce_events" path="..\..\sdks\JUCE-5.1.2\modules"/>
+        <MODULEPATH id="juce_data_structures" path="..\..\sdks\JUCE-5.1.2\modules"/>
+        <MODULEPATH id="juce_core" path="..\..\sdks\JUCE-5.1.2\modules"/>
+      </MODULEPATHS>
+    </VS2015>
   </EXPORTFORMATS>
   <MAINGROUP id="a0m6ZvX1F" name="Reversi">
     <GROUP id="GVpTv8yA5" name="Source">

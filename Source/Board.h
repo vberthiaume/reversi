@@ -40,16 +40,21 @@ public:
 	Board();
 	~Board();
 
+    void initBoard();
+
 	/*bool PlaceWhite(Square &square);
 	bool PlaceBlack(Square &square);*/
 
-    bool PlaceWhite(SquareCoordinates point);
-    bool PlaceBlack(SquareCoordinates point);
+    //bool PlaceWhite(SquareCoordinates point);
+    //bool PlaceBlack(SquareCoordinates point);
 
-    int GetBoardSize() { return BOARD_SIZE; }
+    Square::SquareState placeChip(SquareCoordinates point);
+
+    int getBoardSize() { return BOARD_SIZE; }
 
 private:
-	bool PlaceColour(Square &square, Square::SquareState colour);
 
+    //Square::SquareState PlaceColour(Square &square, Square::SquareState colour);
+    bool isBlackTurn;
 	Square board[BOARD_SIZE][BOARD_SIZE];
 };

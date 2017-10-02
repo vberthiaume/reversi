@@ -43,10 +43,10 @@ private:
     void addSquare(Square::SquareState state, int x, int y)
     {
         SquareComponent *squareComp = new SquareComponent(state, x, y);
-        addAndMakeVisible(items.add(squareComp));
+        addAndMakeVisible(squareComponents.add(squareComp));
         squareComp->addListener(this);
     }
 
-    OwnedArray<SquareComponent> items;
+    OwnedArray<SquareComponent> squareComponents;
     Board board;
 };
