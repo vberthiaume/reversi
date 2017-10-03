@@ -63,10 +63,10 @@ public:
         state = p_state;
     }
 
-    void setCoordinates(int p_x, int p_y)
+    void setCoordinates(int p_r, int p_c)
     {
-        coordinates.x = p_x;
-        coordinates.y = p_y;
+        coordinates.r = p_r;
+        coordinates.c = p_c;
     }
 
 private:

@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include "Square.h"
+#include <vector>
+
 
 class Board
 {
@@ -47,9 +49,14 @@ public:
 
     void clearIsChanged() { changed = false; }
 
-    void searchUp(SquareCoordinates coordinate);
+    
 
 private:
+    //void searchUp(SquareCoordinates coordinate);
+
+    void search(SquareCoordinates coordinates, int searchDirR, int searchDirC);
+    bool updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare);
+
     bool isBlackTurn;
     bool changed;
 	Square board[BOARD_SIZE][BOARD_SIZE];

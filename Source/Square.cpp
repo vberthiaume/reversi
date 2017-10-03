@@ -23,9 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Square.h"
 //
-//Square::Square(int x, int y, SquareState state)
+//Square::Square(int x, int c, SquareState state)
 //{
-//	position = std::make_pair(x, y);
+//	position = std::make_pair(x, c);
 //	m_State = state;
 //}
 //

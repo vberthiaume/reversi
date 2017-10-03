@@ -58,7 +58,7 @@ void Board::initBoard()
 
 Square::SquareState Board::placeChip(SquareCoordinates coordinate)
 {
-    Square &square = board[coordinate.x][coordinate.y];
+    Square &square = board[coordinate.r][coordinate.c];
 
     if (square.state == Square::empty)
     {
@@ -71,8 +71,16 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
         //if you get an empt
         //attempt to search for another square of the same color in all 8 directions
 
-        searchUp(coordinate);
+        /*searchUp(coordinate);*/
+        for (int deltaR = -1; deltaR <= 1; ++deltaR)
+            for (int deltaC = -1; deltaC <= 1; ++deltaC)
+            {
+                if (deltaR == 0 && deltaC == 0)
+                    continue;
+                search(coordinate, deltaR, deltaC);
+            }
 
+        
 
 
 
@@ -84,33 +92,77 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
     return square.state;
 }
 
-void Board::searchUp(SquareCoordinates coordinates)
+void Board::search(SquareCoordinates coordinates, int searchDirR, int searchDirC)
 {
-     Square::SquareState currentPlayer = isBlackTurn ? Square::black : Square::white;
-    Square::SquareState otherPlayer   = isBlackTurn ? Square::white : Square::black;
-
-    //bool foundOppositeColour = false;
-    //bool foundSameColour = false;
     std::vector<Square*> squaresToTurn;
-    
-    for (int i = coordinates.x-1; i > 0; --i)
+
+    if (searchDirR != 0 && searchDirC != 0)
     {
-        Square &curSquare = board[i][coordinates.y];
-        if (curSquare.getState() == otherPlayer)
-            squaresToTurn.push_back(&board[i][coordinates.y]);
-        else if (curSquare.getState() == currentPlayer && squaresToTurn.size() > 0)
-        {
-            for (auto square : squaresToTurn)
-                square->setState(currentPlayer);
-            changed = true;
-            return;
-        }
-        else if (curSquare.getState() == Square::empty)
-            return;
+        for (int r = coordinates.r + searchDirR; r > 0 && r < BOARD_SIZE; r += searchDirR)
+            for (int c = coordinates.c + searchDirC; c > 0 && c < BOARD_SIZE; c += searchDirC)
+                if (updateSquaresToTurn(squaresToTurn, board[r][c]))
+                    return;
+    }
+    else if (searchDirR == 0 && searchDirC != 0)
+    {
+        for (int c = coordinates.c + searchDirC; c > 0 && c < BOARD_SIZE; c += searchDirC)
+            if (updateSquaresToTurn(squaresToTurn, board[coordinates.r][c]))
+                return;
+    }
+    else if (searchDirR != 0 && searchDirC == 0)
+    {
+        for (int r = coordinates.r + searchDirR; r > 0 && r < BOARD_SIZE; r += searchDirR)
+            if (updateSquaresToTurn(squaresToTurn, board[r][coordinates.c]))
+                return;
     }
 }
 
+bool Board::updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare)
+{
+    Square::SquareState currentPlayer = isBlackTurn ? Square::black : Square::white;
+    Square::SquareState otherPlayer = isBlackTurn ? Square::white : Square::black;
+
+    if (curSquare.getState() == otherPlayer)
+    {
+        squaresToTurn_OUT.push_back(&curSquare);
+        return false;
+    }
+    else if (curSquare.getState() == currentPlayer && squaresToTurn_OUT.size() > 0)
+    {
+        for (auto square : squaresToTurn_OUT)
+            square->setState(currentPlayer);
+        changed = true;
+        return true;
+    }
+    else 
+        return true;
+}
+
+//void Board::searchUp(SquareCoordinates coordinates)
+//{
+//    Square::SquareState currentPlayer = isBlackTurn ? Square::black : Square::white;
+//    Square::SquareState otherPlayer   = isBlackTurn ? Square::white : Square::black;
+//
+//    std::vector<Square*> squaresToTurn;
+//    
+//    for (int i = coordinates.r-1; i > 0; --i)
+//    {
+//        Square &curSquare = board[i][coordinates.c];
+//        if (curSquare.getState() == otherPlayer)
+//            squaresToTurn.push_back(&board[i][coordinates.c]);
+//        else if (curSquare.getState() == currentPlayer && squaresToTurn.size() > 0)
+//        {
+//            for (auto square : squaresToTurn)
+//                square->setState(currentPlayer);
+//            changed = true;
+//            return;
+//        }
+//        else if (curSquare.getState() == Square::empty)
+//            return;
+//    }
+//}
+
 Square::SquareState Board::getSquareState(SquareCoordinates coordinates)
 {
-    return board[coordinates.x][coordinates.y].state;
+    return board[coordinates.r][coordinates.c].state;
 }

@@ -27,13 +27,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //NOTE: I could have gone with std::pair, but I find its usage pretty awkward.
 struct SquareCoordinates
 {
-    SquareCoordinates(int p_x = 0, int p_y = 0)
-        : x(p_x)
-        , y(p_y)
+    SquareCoordinates(int p_r = 0, int p_c = 0)
+        : r(p_r)
+        , c(p_c)
     {}
 
-    int x;
-    int y;
+    int r;
+    int c;
 };
 
 struct Square
@@ -55,15 +55,15 @@ struct Square
 
 	Square(SquareCoordinates p_coordinates, SquareState p_state)
 	{
-        coordinates.x = p_coordinates.x;
-        coordinates.y = p_coordinates.y;
+        coordinates.r = p_coordinates.r;
+        coordinates.c = p_coordinates.c;
 		state = p_state;
 	}
 
-    Square(int x, int y, SquareState p_state)
+    Square(int r, int c, SquareState p_state)
     {
-        coordinates.x = x;
-        coordinates.y = y;
+        coordinates.r = r;
+        coordinates.c = c;
         state = p_state;
     }
 
