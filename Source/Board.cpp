@@ -71,7 +71,7 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
         //if you get an empt
         //attempt to search for another square of the same color in all 8 directions
 
-        searchLeft(coordinate);
+        searchUp(coordinate);
 
 
 
@@ -84,24 +84,24 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
     return square.state;
 }
 
-void Board::searchLeft(SquareCoordinates coordinates)
+void Board::searchUp(SquareCoordinates coordinates)
 {
      Square::SquareState currentPlayer = isBlackTurn ? Square::black : Square::white;
     Square::SquareState otherPlayer   = isBlackTurn ? Square::white : Square::black;
 
     //bool foundOppositeColour = false;
     //bool foundSameColour = false;
-    std::vector<Square> squareCoordinatesToTurn;
+    std::vector<Square*> squaresToTurn;
     
     for (int i = coordinates.x-1; i > 0; --i)
     {
         Square &curSquare = board[i][coordinates.y];
         if (curSquare.getState() == otherPlayer)
-            squareCoordinatesToTurn.push_back(board[i][coordinates.y]);
-        else if (curSquare.getState() == currentPlayer && squareCoordinatesToTurn.size() > 0)
+            squaresToTurn.push_back(&board[i][coordinates.y]);
+        else if (curSquare.getState() == currentPlayer && squaresToTurn.size() > 0)
         {
-            for (auto &square : squareCoordinatesToTurn)
-                square.setState(currentPlayer);
+            for (auto square : squaresToTurn)
+                square->setState(currentPlayer);
             changed = true;
             return;
         }

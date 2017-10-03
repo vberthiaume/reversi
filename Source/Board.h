@@ -47,7 +47,7 @@ public:
 
     void clearIsChanged() { changed = false; }
 
-    void searchLeft(SquareCoordinates coordinate);
+    void searchUp(SquareCoordinates coordinate);
 
 private:
     bool isBlackTurn;
