@@ -37,7 +37,7 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
-    void BoardComponentChanged(int blackScore, int whiteScore, bool needToReset) override;
+    void BoardComponentChanged(Scores scores, bool needToReset) override;
 
 private:
 

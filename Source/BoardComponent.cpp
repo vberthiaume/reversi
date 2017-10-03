@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <algorithm>
 
 BoardComponent::BoardComponent()
-    : blackScore(2)
-    , whiteScore(2)
 {
     startTimer(100);
     setSize(600, 600);
@@ -67,7 +65,7 @@ void BoardComponent::timerCallback()
         board.clearIsChanged();
         
         //inform listeners of the change
-        BoardComponentListeners.call(&BoardComponentListener::BoardComponentChanged, blackScore, whiteScore, false);
+        BoardComponentListeners.call(&BoardComponentListener::BoardComponentChanged, board.getScores(), false);
     }
 }
 

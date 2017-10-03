@@ -30,6 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Square.h"
 #include <vector>
 
+struct Scores {
+    int black = 2;
+    int white = 2;
+};
 
 class Board
 {
@@ -43,19 +47,21 @@ public:
 
     Square::SquareState getSquareState(SquareCoordinates point);
 
-    int getBoardSize()  { return BOARD_SIZE; }
+    int getBoardSize()      { return BOARD_SIZE; }
     
-    bool isChanged()    { return changed; }
+    bool isChanged()        { return changed; }
 
-    void clearIsChanged() { changed = false; }
+    void clearIsChanged()   { changed = false; }
+
+    Scores getScores()      { return scores; }
 
 private:
-    //void searchUp(SquareCoordinates coordinate);
-
     int search(SquareCoordinates coordinates, int searchDirR, int searchDirC);
     bool updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare);
 
     bool isBlackTurn;
     bool changed;
 	Square board[BOARD_SIZE][BOARD_SIZE];
+
+    Scores scores;
 };

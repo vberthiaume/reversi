@@ -73,7 +73,18 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
 
         if (numberTurned > 0)
         {
-            square.state = isBlackTurn ? Square::black : Square::white;
+            if (isBlackTurn)
+            {
+                square.state = Square::black;
+                scores.black += numberTurned + 1;
+                scores.white -= numberTurned;
+            }
+            else
+            {
+                square.state = Square::white;
+                scores.white += numberTurned + 1;
+                scores.black -= numberTurned;
+            }
             isBlackTurn = !isBlackTurn;
             changed = true;
         }

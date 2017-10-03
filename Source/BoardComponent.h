@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class BoardComponentListener
 {
 public:
-    virtual void BoardComponentChanged(int blackScore, int whiteScore, bool needToReset) = 0;
+    virtual void BoardComponentChanged(Scores scores, bool needToReset) = 0;
 };
 
 
@@ -55,9 +55,6 @@ private:
     void updateWholeBoard();
     OwnedArray<SquareComponent> squareComponents;
     Board board;
-
-    int blackScore;
-    int whiteScore;
 
     ListenerList <BoardComponentListener> BoardComponentListeners;
 };

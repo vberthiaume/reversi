@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MainComponent.h"
 #include "BoardComponent.h"
+#include <string>
 
 //==============================================================================
 MainComponent::MainComponent ()
@@ -57,8 +58,10 @@ void MainComponent::resized()
     setSize(width, height + labelHeight);
 }
 
-void MainComponent::BoardComponentChanged(int blackScore, int whiteScore, bool needToReset)
+void MainComponent::BoardComponentChanged(Scores scores, bool needToReset)
 {
-    scoreLabel->setText("BLACK: 0 ||| WHITE: 0", dontSendNotification);
+    std::string text = "BLACK: " + std::to_string(scores.black) + " - WHITE: " + std::to_string(scores.white);
+    scoreLabel->setText(text, dontSendNotification);
+    scoreLabel->setJustificationType(Justification::centred);
 }
 
