@@ -98,10 +98,21 @@ void Board::search(SquareCoordinates coordinates, int searchDirR, int searchDirC
 
     if (searchDirR != 0 && searchDirC != 0)
     {
-        for (int r = coordinates.r + searchDirR; r > 0 && r < BOARD_SIZE; r += searchDirR)
-            for (int c = coordinates.c + searchDirC; c > 0 && c < BOARD_SIZE; c += searchDirC)
-                if (updateSquaresToTurn(squaresToTurn, board[r][c]))
-                    return;
+        //for (int r = coordinates.r + searchDirR; r > 0 && r < BOARD_SIZE; r += searchDirR)
+        //    for (int c = coordinates.c + searchDirC; c > 0 && c < BOARD_SIZE; c += searchDirC)
+        //        if (updateSquaresToTurn(squaresToTurn, board[r][c]))
+        //            return;
+        int r = coordinates.r + searchDirR;
+        int c = coordinates.c + searchDirC;
+        while(r > 0 && r < BOARD_SIZE && c > 0 && c < BOARD_SIZE)
+        { 
+            if (updateSquaresToTurn(squaresToTurn, board[r][c]))
+                return;
+            r += searchDirR;
+            c += searchDirC;
+        }
+                
+
     }
     else if (searchDirR == 0 && searchDirC != 0)
     {
