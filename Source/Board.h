@@ -49,8 +49,6 @@ public:
 
     void clearIsChanged() { changed = false; }
 
-    
-
 private:
     //void searchUp(SquareCoordinates coordinate);
 

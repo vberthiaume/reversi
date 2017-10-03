@@ -134,7 +134,7 @@ bool Board::updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square 
     {
         for (auto square : squaresToTurn_OUT)
             square->setState(currentPlayer);
-        changed = true;
+        //changed = true;
         return true;
     }
     else 
@@ -143,30 +143,6 @@ bool Board::updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square 
         return true;
     }
 }
-
-//void Board::searchUp(SquareCoordinates coordinates)
-//{
-//    Square::SquareState currentPlayer = isBlackTurn ? Square::black : Square::white;
-//    Square::SquareState otherPlayer   = isBlackTurn ? Square::white : Square::black;
-//
-//    std::vector<Square*> squaresToTurn;
-//    
-//    for (int i = coordinates.r-1; i > 0; --i)
-//    {
-//        Square &curSquare = board[i][coordinates.c];
-//        if (curSquare.getState() == otherPlayer)
-//            squaresToTurn.push_back(&board[i][coordinates.c]);
-//        else if (curSquare.getState() == currentPlayer && squaresToTurn.size() > 0)
-//        {
-//            for (auto square : squaresToTurn)
-//                square->setState(currentPlayer);
-//            changed = true;
-//            return;
-//        }
-//        else if (curSquare.getState() == Square::empty)
-//            return;
-//    }
-//}
 
 Square::SquareState Board::getSquareState(SquareCoordinates coordinates)
 {

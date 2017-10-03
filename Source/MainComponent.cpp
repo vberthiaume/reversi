@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 MainComponent::MainComponent ()
 {
     addAndMakeVisible(boardComponent = new BoardComponent());
+    boardComponent->addBoardComponentListeners(this);
     addAndMakeVisible(scoreLabel = new Label("scoreLabel", "BLACK: 0 ||| WHITE: 0"));
         
     setSize (boardComponent->getWidth(), boardComponent->getHeight() + labelHeight);
@@ -56,8 +57,8 @@ void MainComponent::resized()
     setSize(width, height + labelHeight);
 }
 
-void MainComponent::buttonClicked (Button* /*buttonThatWasClicked*/)
+void MainComponent::BoardComponentChanged(int blackScore, int whiteScore, bool needToReset)
 {
+    scoreLabel->setText("BLACK: 0 ||| WHITE: 0", dontSendNotification);
 }
-
 

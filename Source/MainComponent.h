@@ -25,11 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Board.h"
-
-class BoardComponent;
+#include "BoardComponent.h"
 
 class MainComponent  : public Component,
-                       public Button::Listener
+                       public BoardComponentListener
 {
 public:
     //==============================================================================
@@ -38,7 +37,7 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
-    void buttonClicked (Button* buttonThatWasClicked) override;
+    void BoardComponentChanged(int blackScore, int whiteScore, bool needToReset) override;
 
 private:
 
