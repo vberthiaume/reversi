@@ -35,11 +35,8 @@ class BoardComponent
 {
 public:
     BoardComponent();
-    ~BoardComponent();
 
     void paint(Graphics& g) override;
-
-    //void resized() override;
 
     void buttonClicked(Button* buttonThatWasClicked) override;
 
@@ -47,9 +44,6 @@ public:
 
 private:
     void updateWholeBoard();
-
-    /*SquareComponent squareComponents[BOARD_SIZE][BOARD_SIZE];*/
-    /*std::vector<SquareComponent*> squareComponents;*/
     OwnedArray<SquareComponent> squareComponents;
     Board board;
 };

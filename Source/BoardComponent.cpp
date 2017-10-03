@@ -32,18 +32,13 @@ BoardComponent::BoardComponent()
     Grid grid;
     grid.rowGap = 2_px;
     grid.columnGap = 2_px;
-
+    
+    //build the board
     for (int r = 0; r < board.getBoardSize(); ++r)
     {
         for (int c = 0; c < board.getBoardSize(); ++c)
         {
-            /*SquareComponent &squareComp = squareComponents[i][j];
-            squareComp.setState(Square::empty);
-            squareComp.setCoordinates(i, j);
-            squareComp.addListener(this);
-            addAndMakeVisible(squareComp);*/
-            SquareCoordinates coordinates(r, c);
-            SquareComponent *squareComp = new SquareComponent(Square::empty, coordinates);
+            SquareComponent *squareComp = new SquareComponent(Square::empty, SquareCoordinates(r, c));
             squareComp->addListener(this);
             squareComponents.add(squareComp);
             addAndMakeVisible(squareComp);
@@ -53,16 +48,13 @@ BoardComponent::BoardComponent()
         grid.templateColumns.add(Grid::TrackInfo(1_fr));
     }
 
+    //place the squares component in a grid
     for (SquareComponent *squareComp : squareComponents)
         grid.items.add(squareComp);
     grid.performLayout(getLocalBounds());
 
+    //sort in order to use binary search to resolve which squareComponent was clicked on
     std::sort(squareComponents.begin(), squareComponents.end());
-}
-
-BoardComponent::~BoardComponent()
-{
-    //squareComponents.clear();
 }
 
 void BoardComponent::timerCallback()
@@ -76,14 +68,6 @@ void BoardComponent::timerCallback()
 
 void BoardComponent::updateWholeBoard()
 {
-    //for (int i = 0; i < board.getBoardSize(); ++i)
-    //    for (int j = 0; j < board.getBoardSize(); ++j)
-    //    {
-    //        SquareCoordinates coordinates(i, j);
-    //        squareComponents[i][j].setState(board.getSquareState(coordinates));
-    //        squareComponents[i][j].repaint();
-    //    }
-
     for (SquareComponent* squareComp : squareComponents)
     {
         squareComp->setState(board.getSquareState(squareComp->getCoordinates()));
@@ -96,44 +80,9 @@ void BoardComponent::paint(Graphics& g)
     g.fillAll(Colours::black);
 }
 
-//void BoardComponent::resized() 
-//{
-//    Grid grid;
-//
-//    grid.rowGap     = 2_px;
-//    grid.columnGap  = 2_px;
-//
-//    for (int i = 0; i < board.getBoardSize(); ++i)
-//    {
-//        grid.templateRows.add(Grid::TrackInfo(1_fr));
-//        grid.templateColumns.add(Grid::TrackInfo(1_fr));
-//    }
-//
-//    //for (int i = 0; i < board.getBoardSize(); ++i)
-//    //    for (int j = 0; j < board.getBoardSize(); ++j)
-//    //        grid.items.add(squareComponents[i][j]);
-//
-//    for (SquareComponent *squareComp : squareComponents)
-//        grid.items.add(squareComp);
-//
-//
-//    grid.performLayout(getLocalBounds());
-//}
 
 void BoardComponent::buttonClicked(Button* buttonThatWasClicked)
 {
-    //TODO use a map or something more intelligent
-    //for (int i = 0; i < board.getBoardSize(); ++i)
-    //    for (int j = 0; j < board.getBoardSize(); ++j)
-    //    {
-    //        SquareComponent &squareComp = squareComponents[i][j];
-    //        if (buttonThatWasClicked == &squareComp)
-    //        {
-    //            squareComp.setState(board.placeChip(squareComp.getCoordinates()));
-    //            return;
-    //        }
-    //    }
-
     SquareComponent* squareComp = reinterpret_cast<SquareComponent*>(buttonThatWasClicked);
 
     if (std::binary_search(squareComponents.begin(), squareComponents.end(), squareComp))
