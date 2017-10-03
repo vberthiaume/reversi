@@ -44,7 +44,8 @@ private:
     const int labelHeight = 50;
 
     ScopedPointer<BoardComponent> boardComponent;
-    ScopedPointer<Label> scoreLabel;
+    ScopedPointer<Label> blackScoreLabel;
+    ScopedPointer<Label> whiteScoreLabel;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

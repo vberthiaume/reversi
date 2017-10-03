@@ -30,7 +30,10 @@ MainComponent::MainComponent ()
 {
     addAndMakeVisible(boardComponent = new BoardComponent());
     boardComponent->addBoardComponentListeners(this);
-    addAndMakeVisible(scoreLabel = new Label("scoreLabel", "BLACK: 0 ||| WHITE: 0"));
+    addAndMakeVisible(blackScoreLabel = new Label("blackScoreLabel", "BLACK: 2"));
+    addAndMakeVisible(whiteScoreLabel = new Label("whiteScoreLabel", "WHITE: 2"));
+    blackScoreLabel->setJustificationType(Justification::centred);
+    whiteScoreLabel->setJustificationType(Justification::centred);
         
     setSize (boardComponent->getWidth(), boardComponent->getHeight() + labelHeight);
 }
@@ -54,14 +57,14 @@ void MainComponent::resized()
     int width = boardComponent->getWidth();
     int height = boardComponent->getHeight();
 
-    scoreLabel->setBounds(0, height, width, labelHeight);
+    blackScoreLabel->setBounds(0, height, width/2, labelHeight);
+    whiteScoreLabel->setBounds(width / 2, height, width/2, labelHeight);
     setSize(width, height + labelHeight);
 }
 
 void MainComponent::BoardComponentChanged(Scores scores, bool needToReset)
 {
-    std::string text = "BLACK: " + std::to_string(scores.black) + " - WHITE: " + std::to_string(scores.white);
-    scoreLabel->setText(text, dontSendNotification);
-    scoreLabel->setJustificationType(Justification::centred);
+    blackScoreLabel->setText("BLACK: " + std::to_string(scores.black), dontSendNotification);
+    whiteScoreLabel->setText("WHITE: " + std::to_string(scores.white), dontSendNotification);
 }
 
