@@ -47,10 +47,8 @@ public:
     void timerCallback() override;
 
 private:
-    //void addSquare(Square::SquareState state, SquareCoordinates coordinates);
     void updateWholeBoard();
 
-    /*OwnedArray<SquareComponent> squareComponents;*/
     SquareComponent squareComponents[BOARD_SIZE][BOARD_SIZE];
     Board board;
 };
