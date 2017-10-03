@@ -34,6 +34,9 @@ MainComponent::MainComponent ()
     addAndMakeVisible(whiteScoreLabel = new Label("whiteScoreLabel", "WHITE: 2"));
     blackScoreLabel->setJustificationType(Justification::centred);
     whiteScoreLabel->setJustificationType(Justification::centred);
+
+    addAndMakeVisible(blackScoreRectangle = new FlashingRectangle());
+    addAndMakeVisible(whiteScoreRectangle = new FlashingRectangle());
         
     setSize (boardComponent->getWidth(), boardComponent->getHeight() + labelHeight);
 }
@@ -58,7 +61,11 @@ void MainComponent::resized()
     int height = boardComponent->getHeight();
 
     blackScoreLabel->setBounds(0, height, width/2, labelHeight);
+    blackScoreRectangle->setBounds(0, height, width / 2, labelHeight);
+
     whiteScoreLabel->setBounds(width / 2, height, width/2, labelHeight);
+    whiteScoreRectangle->setBounds(width / 2, height, width / 2, labelHeight);
+
     setSize(width, height + labelHeight);
 }
 
@@ -66,5 +73,8 @@ void MainComponent::BoardComponentChanged(Scores scores, bool needToReset)
 {
     blackScoreLabel->setText("BLACK: " + std::to_string(scores.black), dontSendNotification);
     whiteScoreLabel->setText("WHITE: " + std::to_string(scores.white), dontSendNotification);
+
+    blackScoreRectangle->startFlashing();
+    whiteScoreRectangle->startFlashing();
 }
 

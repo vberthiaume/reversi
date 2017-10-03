@@ -27,6 +27,63 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Board.h"
 #include "BoardComponent.h"
 
+
+//==============================================================================
+class FlashingRectangle : public Component,
+    private Timer
+{
+public:
+    FlashingRectangle()
+        : flashAlpha(0.0f)
+        , colour(Colours::darkgreen)
+        , isFadingOut(true)
+    { }
+
+    void startFlashing()
+    {
+        flashAlpha = 1.0f;
+        startTimerHz(25);
+    }
+
+    void stopFlashing()
+    {
+        flashAlpha = 0.0f;
+        stopTimer();
+        repaint();
+    }
+
+    void paint(Graphics& g) override
+    {
+        Rectangle<float> area(getLocalBounds().toFloat().reduced(2.0f));
+        g.setColour(colour.overlaidWith(Colours::white.withAlpha(flashAlpha)));
+        g.drawRoundedRectangle(area, 10.0f, 2.0f);
+    }
+
+private:
+    float flashAlpha;
+    Colour colour;
+    bool isFadingOut;
+
+    void timerCallback() override
+    {
+        if (isFadingOut)
+        {
+            flashAlpha -= 0.075f;
+            if (flashAlpha < 0.05f)
+                isFadingOut = false;
+        }
+        else
+        {
+            flashAlpha += 0.075f;
+            if (flashAlpha > 0.95f)
+                isFadingOut = true;
+        }
+
+        repaint();
+    }
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FlashingRectangle)
+};
+
 class MainComponent  : public Component,
                        public BoardComponentListener
 {
@@ -46,6 +103,8 @@ private:
     ScopedPointer<BoardComponent> boardComponent;
     ScopedPointer<Label> blackScoreLabel;
     ScopedPointer<Label> whiteScoreLabel;
+    ScopedPointer<FlashingRectangle> blackScoreRectangle;
+    ScopedPointer<FlashingRectangle> whiteScoreRectangle;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
