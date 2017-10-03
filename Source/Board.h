@@ -54,7 +54,7 @@ public:
 private:
     //void searchUp(SquareCoordinates coordinate);
 
-    void search(SquareCoordinates coordinates, int searchDirR, int searchDirC);
+    int search(SquareCoordinates coordinates, int searchDirR, int searchDirC);
     bool updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare);
 
     bool isBlackTurn;

@@ -70,29 +70,28 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
         // a square of the same color or an empty one
         //if you get an empt
         //attempt to search for another square of the same color in all 8 directions
-
-        /*searchUp(coordinate);*/
+        int numberTurned = 0;
         for (int deltaR = -1; deltaR <= 1; ++deltaR)
             for (int deltaC = -1; deltaC <= 1; ++deltaC)
             {
                 if (deltaR == 0 && deltaC == 0)
                     continue;
-                search(coordinate, deltaR, deltaC);
+                int temp = search(coordinate, deltaR, deltaC);
+                numberTurned += temp;
             }
 
-        
-
-
-
-        square.state = isBlackTurn ? Square::black : Square::white;
-        isBlackTurn = !isBlackTurn;
-        changed = true;
+        if (numberTurned > 0)
+        {
+            square.state = isBlackTurn ? Square::black : Square::white;
+            isBlackTurn = !isBlackTurn;
+            changed = true;
+        }
     }
      
     return square.state;
 }
 
-void Board::search(SquareCoordinates coordinates, int searchDirR, int searchDirC)
+int Board::search(SquareCoordinates coordinates, int searchDirR, int searchDirC)
 {
     std::vector<Square*> squaresToTurn;
 
@@ -107,7 +106,7 @@ void Board::search(SquareCoordinates coordinates, int searchDirR, int searchDirC
         while(r > 0 && r < BOARD_SIZE && c > 0 && c < BOARD_SIZE)
         { 
             if (updateSquaresToTurn(squaresToTurn, board[r][c]))
-                return;
+                return squaresToTurn.size();
             r += searchDirR;
             c += searchDirC;
         }
@@ -118,14 +117,16 @@ void Board::search(SquareCoordinates coordinates, int searchDirR, int searchDirC
     {
         for (int c = coordinates.c + searchDirC; c > 0 && c < BOARD_SIZE; c += searchDirC)
             if (updateSquaresToTurn(squaresToTurn, board[coordinates.r][c]))
-                return;
+                return squaresToTurn.size();
     }
     else if (searchDirR != 0 && searchDirC == 0)
     {
         for (int r = coordinates.r + searchDirR; r > 0 && r < BOARD_SIZE; r += searchDirR)
             if (updateSquaresToTurn(squaresToTurn, board[r][coordinates.c]))
-                return;
+                return squaresToTurn.size();
     }
+    //we've hit the edge of the board without turning anything
+    return 0;
 }
 
 bool Board::updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare)
@@ -146,7 +147,10 @@ bool Board::updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square 
         return true;
     }
     else 
+    {
+        squaresToTurn_OUT.clear();
         return true;
+    }
 }
 
 //void Board::searchUp(SquareCoordinates coordinates)
