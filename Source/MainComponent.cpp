@@ -29,7 +29,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 MainComponent::MainComponent ()
 {
     addAndMakeVisible(boardComponent = new BoardComponent(&board));
-    boardComponent->addBoardComponentListeners(this);
+    board.addBoardBoardChangeListener(this);
+    board.addBoardBoardChangeListener(boardComponent);
+
     addAndMakeVisible(blackScoreLabel = new Label("blackScoreLabel", "BLACK: 2"));
     addAndMakeVisible(whiteScoreLabel = new Label("whiteScoreLabel", "WHITE: 2"));
     blackScoreLabel->setJustificationType(Justification::centred);
@@ -39,6 +41,8 @@ MainComponent::MainComponent ()
     addAndMakeVisible(whiteScoreRectangle = new FlashingRectangle());
         
     setSize (boardComponent->getWidth(), boardComponent->getHeight() + labelHeight);
+
+    board.initBoard();
 }
 
 MainComponent::~MainComponent()
@@ -70,7 +74,7 @@ void MainComponent::resized()
 }
 
 //TODO: this event needs to receive a structure that says whose turn it is, if we need to reset and scores
-void MainComponent::BoardComponentChanged(Scores scores, bool needToReset)
+void MainComponent::BoardChanged(Scores scores, bool needToReset)
 {
     blackScoreLabel->setText("BLACK: " + std::to_string(scores.black), dontSendNotification);
     whiteScoreLabel->setText("WHITE: " + std::to_string(scores.white), dontSendNotification);
@@ -78,4 +82,5 @@ void MainComponent::BoardComponentChanged(Scores scores, bool needToReset)
     blackScoreRectangle->startFlashing();
     whiteScoreRectangle->startFlashing();
 }
+
 

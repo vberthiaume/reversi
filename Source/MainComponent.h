@@ -87,8 +87,9 @@ private:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FlashingRectangle)
 };
 
-class MainComponent  : public Component,
-                       public BoardComponentListener
+class MainComponent  
+    : public Component
+    , public BoardChangeListener
 {
 public:
     //==============================================================================
@@ -97,7 +98,7 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
-    void BoardComponentChanged(Scores scores, bool needToReset) override;
+    void BoardChanged(Scores scores, bool needToReset) override;
 
 private:
     Board board;

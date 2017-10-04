@@ -28,16 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "SquareComponent.h"
 
 
-class BoardComponentListener
-{
-public:
-    virtual void BoardComponentChanged(Scores scores, bool needToReset) = 0;
-};
-
 class BoardComponent 
     : public Component
     , public SquareComponent::Listener
-    , private Timer
+    , public BoardChangeListener
 {
 public:
     BoardComponent(Board* p_board);
@@ -46,9 +40,7 @@ public:
 
     void buttonClicked(Button* buttonThatWasClicked) override;
 
-    void timerCallback() override;
-
-    void addBoardComponentListeners(BoardComponentListener* listener) { BoardComponentListeners.add(listener); }
+    void BoardChanged(Scores scores, bool needToReset) override;
 
 private:
     void updateWholeBoard();
@@ -56,5 +48,4 @@ private:
     OwnedArray<SquareComponent> squareComponents;
     Board* board;
 
-    ListenerList <BoardComponentListener> BoardComponentListeners;
 };

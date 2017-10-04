@@ -26,6 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Square.h"
 
+#ifndef USE_IMAGES
+#define USE_IMAGES 1
+#endif
+
 struct SquareComponent 
     : public TextButton
     //, public ImageComponent
@@ -36,28 +40,39 @@ public:
         , state(p_state)
         , coordinates(p_coordinates)
     {
+#if USE_IMAGES
         woodenBlock = ImageFileFormat::loadFrom(BinaryData::woodenSquare_png, (size_t)BinaryData::woodenSquare_pngSize);
-        blackChip   = ImageFileFormat::loadFrom(BinaryData::blackChip_png, (size_t)BinaryData::blackChip_pngSize);
-        whiteChip   = ImageFileFormat::loadFrom(BinaryData::whiteChip_png, (size_t)BinaryData::whiteChip_pngSize);
+        blackChip = ImageFileFormat::loadFrom(BinaryData::blackChip_png, (size_t)BinaryData::blackChip_pngSize);
+        whiteChip = ImageFileFormat::loadFrom(BinaryData::whiteChip_png, (size_t)BinaryData::whiteChip_pngSize);
+#endif
     }
 
     void paint(Graphics& g) override
     {
-        //g.fillAll(Colours::saddlebrown);
+#if USE_IMAGES
         g.drawImage(woodenBlock, getLocalBounds().toFloat(), RectanglePlacement::centred);
+#else
+        g.fillAll(Colours::saddlebrown);
+#endif
         switch (state)
         {
         case Square::empty:
             break;
         case Square::black:
-            //g.setColour(Colours::black);
-            //g.fillEllipse(getLocalBounds().toFloat());
+#if USE_IMAGES
             g.drawImage(blackChip, getLocalBounds().toFloat(), RectanglePlacement::centred);
+#else
+            g.setColour(Colours::black);
+            g.fillEllipse(getLocalBounds().toFloat());
+#endif
             break;
         case Square::white:
-            //g.setColour(Colours::white);
-            //g.fillEllipse(getLocalBounds().toFloat());
+#if USE_IMAGES
             g.drawImage(whiteChip, getLocalBounds().toFloat(), RectanglePlacement::centred);
+#else
+            g.setColour(Colours::white);
+            g.fillEllipse(getLocalBounds().toFloat());
+#endif
             break;
         default:
             jassertfalse;

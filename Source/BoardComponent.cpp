@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 BoardComponent::BoardComponent(Board* p_board)
     : board(p_board)
 {
-    startTimer(100);
     int squareSize = 75;
     int gapSize = 2;
     int squareCount = board->getBoardSize();
@@ -62,16 +61,9 @@ void BoardComponent::addSquareComponent(int r, int c, int squareSize, int rGapSi
     addAndMakeVisible(squareComp);
 }
 
-void BoardComponent::timerCallback()
+void BoardComponent::BoardChanged(Scores /*scores*/, bool /*needToReset*/)
 {
-    if (board->isChanged())
-    {
-        updateWholeBoard();
-        board->clearIsChanged();
-        
-        //inform listeners of the change
-        BoardComponentListeners.call(&BoardComponentListener::BoardComponentChanged, board->getScores(), false);
-    }
+    updateWholeBoard();
 }
 
 void BoardComponent::updateWholeBoard()
@@ -87,7 +79,6 @@ void BoardComponent::paint(Graphics& g)
 {
     g.fillAll(Colours::black);
 }
-
 
 void BoardComponent::buttonClicked(Button* buttonThatWasClicked)
 {

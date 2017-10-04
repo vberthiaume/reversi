@@ -35,6 +35,23 @@ struct Scores {
     int white = 2;
 };
 
+class BoardChangeListener
+{
+public:
+    virtual void BoardChanged(Scores scores, bool needToReset) = 0;
+};
+
+
+class BoardChangeListenerList : public std::vector<BoardChangeListener*>
+{
+public:
+    void notifyAllListeners(Scores score) 
+    {
+        for (std::vector<BoardChangeListener*>::iterator it = begin() ; it != end(); ++it)
+            (*it)->BoardChanged(score, false);
+    }
+};
+
 class Board
 {
 public:
@@ -44,23 +61,20 @@ public:
     void initBoard();
 
     Square::SquareState placeChip(SquareCoordinates point);
-
     Square::SquareState getSquareState(SquareCoordinates point);
 
     int getBoardSize()      { return BOARD_SIZE; }
-    
-    bool isChanged()        { return changed; }
-
-    void clearIsChanged()   { changed = false; }
-
     Scores getScores()      { return scores; }
+
+    void addBoardBoardChangeListener(BoardChangeListener* listener){ boardChangeListenerList.push_back(listener); }
 
 private:
     int search(SquareCoordinates coordinates, int searchDirR, int searchDirC);
     bool updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare);
+    
+    BoardChangeListenerList boardChangeListenerList;
 
     bool isBlackTurn;
-    bool changed;
 	Square board[BOARD_SIZE][BOARD_SIZE];
 
     Scores scores;
