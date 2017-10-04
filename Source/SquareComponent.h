@@ -36,17 +36,14 @@ public:
         , state(p_state)
         , coordinates(p_coordinates)
     {
-    
         woodenBlock = ImageFileFormat::loadFrom(BinaryData::woodenSquare_png, (size_t)BinaryData::woodenSquare_pngSize);
-        blackChip = ImageFileFormat::loadFrom(BinaryData::blackChip_png, (size_t)BinaryData::blackChip_pngSize);
-        whiteChip = ImageFileFormat::loadFrom(BinaryData::whiteChip_png, (size_t)BinaryData::whiteChip_pngSize);
+        blackChip   = ImageFileFormat::loadFrom(BinaryData::blackChip_png, (size_t)BinaryData::blackChip_pngSize);
+        whiteChip   = ImageFileFormat::loadFrom(BinaryData::whiteChip_png, (size_t)BinaryData::whiteChip_pngSize);
     }
 
     void paint(Graphics& g) override
     {
         //g.fillAll(Colours::saddlebrown);
-
-
         g.drawImage(woodenBlock, getLocalBounds().toFloat(), RectanglePlacement::centred);
         switch (state)
         {
@@ -55,8 +52,6 @@ public:
         case Square::black:
             //g.setColour(Colours::black);
             //g.fillEllipse(getLocalBounds().toFloat());
-
-            
             g.drawImage(blackChip, getLocalBounds().toFloat(), RectanglePlacement::centred);
             break;
         case Square::white:

@@ -34,14 +34,13 @@ public:
     virtual void BoardComponentChanged(Scores scores, bool needToReset) = 0;
 };
 
-
 class BoardComponent 
     : public Component
     , public SquareComponent::Listener
     , private Timer
 {
 public:
-    BoardComponent();
+    BoardComponent(Board* p_board);
 
     void paint(Graphics& g) override;
 
@@ -55,7 +54,7 @@ private:
     void updateWholeBoard();
     void addSquareComponent(int r, int c, int squareSize, int rGapSize, int cGapSize);
     OwnedArray<SquareComponent> squareComponents;
-    Board board;
+    Board* board;
 
     ListenerList <BoardComponentListener> BoardComponentListeners;
 };

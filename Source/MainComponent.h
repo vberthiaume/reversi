@@ -100,7 +100,7 @@ public:
     void BoardComponentChanged(Scores scores, bool needToReset) override;
 
 private:
-
+    Board board;
     const int labelHeight = 50;
 
     ScopedPointer<BoardComponent> boardComponent;

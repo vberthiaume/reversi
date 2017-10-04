@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //==============================================================================
 MainComponent::MainComponent ()
 {
-    addAndMakeVisible(boardComponent = new BoardComponent());
+    addAndMakeVisible(boardComponent = new BoardComponent(&board));
     boardComponent->addBoardComponentListeners(this);
     addAndMakeVisible(blackScoreLabel = new Label("blackScoreLabel", "BLACK: 2"));
     addAndMakeVisible(whiteScoreLabel = new Label("whiteScoreLabel", "WHITE: 2"));

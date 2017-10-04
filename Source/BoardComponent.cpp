@@ -25,12 +25,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <algorithm>
 #include <string>
 
-BoardComponent::BoardComponent()
+BoardComponent::BoardComponent(Board* p_board)
+    : board(p_board)
 {
     startTimer(100);
     int squareSize = 75;
     int gapSize = 2;
-    int squareCount = board.getBoardSize();
+    int squareCount = board->getBoardSize();
     int sideSize = squareCount*squareSize + (squareCount-1)*gapSize;
     setSize(sideSize, sideSize);
 
@@ -57,22 +58,19 @@ void BoardComponent::addSquareComponent(int r, int c, int squareSize, int rGapSi
     SquareComponent *squareComp = new SquareComponent(Square::empty, SquareCoordinates(r, c));
     squareComp->addListener(this);
     squareComponents.add(squareComp);
-
     squareComp->setBounds(c*(squareSize + cGapSize), r*(squareSize + rGapSize), squareSize, squareSize);
     addAndMakeVisible(squareComp);
-    std::string position = std::to_string(c*squareSize + cGapSize) + " " + std::to_string(r*squareSize + rGapSize);
-    DBG(position);
 }
 
 void BoardComponent::timerCallback()
 {
-    if (board.isChanged())
+    if (board->isChanged())
     {
         updateWholeBoard();
-        board.clearIsChanged();
+        board->clearIsChanged();
         
         //inform listeners of the change
-        BoardComponentListeners.call(&BoardComponentListener::BoardComponentChanged, board.getScores(), false);
+        BoardComponentListeners.call(&BoardComponentListener::BoardComponentChanged, board->getScores(), false);
     }
 }
 
@@ -80,7 +78,7 @@ void BoardComponent::updateWholeBoard()
 {
     for (SquareComponent* squareComp : squareComponents)
     {
-        squareComp->setState(board.getSquareState(squareComp->getCoordinates()));
+        squareComp->setState(board->getSquareState(squareComp->getCoordinates()));
         squareComp->repaint();
     }
 }
@@ -96,7 +94,7 @@ void BoardComponent::buttonClicked(Button* buttonThatWasClicked)
     SquareComponent* squareComp = reinterpret_cast<SquareComponent*>(buttonThatWasClicked);
 
     if (std::binary_search(squareComponents.begin(), squareComponents.end(), squareComp))
-        squareComp->setState(board.placeChip(squareComp->getCoordinates()));
+        squareComp->setState(board->placeChip(squareComp->getCoordinates()));
     else
         jassertfalse; //buttonThatWasClicked not in squareComponents!
 }
