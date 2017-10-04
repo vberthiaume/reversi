@@ -29,14 +29,14 @@ BoardComponent::BoardComponent()
 {
     startTimer(100);
     int squareSize = 75;
-    int gapSize = 5;
-    int boardSize = board.getBoardSize();
-    int sideSize = boardSize*squareSize + (boardSize-1)*gapSize;
+    int gapSize = 2;
+    int squareCount = board.getBoardSize();
+    int sideSize = squareCount*squareSize + (squareCount-1)*gapSize;
     setSize(sideSize, sideSize);
 
     //build the board
-    for (int r = 0; r < boardSize; ++r)
-        for (int c = 0; c < boardSize; ++c)
+    for (int r = 0; r < squareCount; ++r)
+        for (int c = 0; c < squareCount; ++c)
         {
             if (r == 0 && c == 0)
                 addSquareComponent(r, c, squareSize, 0, 0);

@@ -9,13 +9,13 @@
 namespace BinaryData
 {
     extern const char*   blackChip_png;
-    const int            blackChip_pngSize = 128089;
+    const int            blackChip_pngSize = 116658;
 
     extern const char*   reversiIcon_png;
     const int            reversiIcon_pngSize = 12399;
 
     extern const char*   whiteChip_png;
-    const int            whiteChip_pngSize = 100785;
+    const int            whiteChip_pngSize = 51550;
 
     extern const char*   woodenSquare_png;
     const int            woodenSquare_pngSize = 153798;

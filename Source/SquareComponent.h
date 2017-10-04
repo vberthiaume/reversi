@@ -35,27 +35,39 @@ public:
         : TextButton("square")
         , state(p_state)
         , coordinates(p_coordinates)
-    {}
+    {
+    
+        woodenBlock = ImageFileFormat::loadFrom(BinaryData::woodenSquare_png, (size_t)BinaryData::woodenSquare_pngSize);
+        blackChip = ImageFileFormat::loadFrom(BinaryData::blackChip_png, (size_t)BinaryData::blackChip_pngSize);
+        whiteChip = ImageFileFormat::loadFrom(BinaryData::whiteChip_png, (size_t)BinaryData::whiteChip_pngSize);
+    }
 
     void paint(Graphics& g) override
     {
-        g.fillAll(Colours::saddlebrown);
+        //g.fillAll(Colours::saddlebrown);
+
+
+        g.drawImage(woodenBlock, getLocalBounds().toFloat(), RectanglePlacement::centred);
         switch (state)
         {
         case Square::empty:
             break;
         case Square::black:
-            g.setColour(Colours::black);
-            g.fillEllipse(getLocalBounds().toFloat());
+            //g.setColour(Colours::black);
+            //g.fillEllipse(getLocalBounds().toFloat());
+
+            
+            g.drawImage(blackChip, getLocalBounds().toFloat(), RectanglePlacement::centred);
             break;
         case Square::white:
-            g.setColour(Colours::white);
-            g.fillEllipse(getLocalBounds().toFloat());
+            //g.setColour(Colours::white);
+            //g.fillEllipse(getLocalBounds().toFloat());
+            g.drawImage(whiteChip, getLocalBounds().toFloat(), RectanglePlacement::centred);
             break;
         default:
             jassertfalse;
             break;
-        }        
+        }
     }
 
     SquareCoordinates getCoordinates() { return coordinates; }
@@ -72,6 +84,9 @@ public:
     }
 
 private:
+    Image woodenBlock;
+    Image blackChip;
+    Image whiteChip;
     Square::SquareState state;
     SquareCoordinates coordinates;
 };
