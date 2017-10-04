@@ -35,6 +35,11 @@ struct Scores {
     int white = 2;
 };
 
+struct PossibleMoves {
+    std::vector<SquareCoordinates> black;
+    std::vector<SquareCoordinates> white;
+};
+
 struct BoardChangeEvent
 {
     BoardChangeEvent() {}
@@ -89,13 +94,14 @@ public:
     void addBoardBoardChangeListener(BoardChangeListener* listener){ boardChangeListenerList.push_back(listener); }
 
 private:
-    size_t search(SquareCoordinates coordinates, int searchDirR, int searchDirC);
+    size_t searchAllDirections(SquareCoordinates coordinate);
+    size_t searchOneDirection(SquareCoordinates coordinates, int searchDirR, int searchDirC);
     bool updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare);
-    
-    BoardChangeListenerList boardChangeListenerList;
+    void updatePossibleMoves();
 
     bool isBlackTurn;
 	Square board[BOARD_SIZE][BOARD_SIZE];
-
     Scores scores;
+    PossibleMoves possibleMoves;
+    BoardChangeListenerList boardChangeListenerList;
 };

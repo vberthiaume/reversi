@@ -51,6 +51,8 @@ void Board::initBoard()
     board[middle - 1][middle].state     = Square::white;
     board[middle][middle - 1].state     = Square::white;
 
+    updatePossibleMoves();
+
     boardChangeListenerList.notifyAllListeners(BoardChangeEvent());
 }
 
@@ -60,15 +62,7 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
 
     if (square.state == Square::empty)
     {
-        int numberTurned = 0;
-        for (int deltaR = -1; deltaR <= 1; ++deltaR)
-            for (int deltaC = -1; deltaC <= 1; ++deltaC)
-            {
-                if (deltaR == 0 && deltaC == 0)
-                    continue;
-                numberTurned += search(coordinate, deltaR, deltaC);
-            }
-
+        int numberTurned = searchAllDirections(coordinate);
         if (numberTurned > 0)
         {
             if (isBlackTurn)
@@ -92,7 +86,27 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
     return square.state;
 }
 
-size_t Board::search(SquareCoordinates coordinates, int searchDirR, int searchDirC)
+void Board::updatePossibleMoves()
+{
+
+}
+
+size_t Board::searchAllDirections(SquareCoordinates coordinate)
+{
+    size_t numberTurned = 0;
+    for(int deltaR = -1; deltaR <= 1; ++deltaR)
+    {
+        for(int deltaC = -1; deltaC <= 1; ++deltaC)
+        {
+            if(deltaR == 0 && deltaC == 0)
+                continue;
+            numberTurned += searchOneDirection(coordinate, deltaR, deltaC);
+        }
+    }
+    return numberTurned;
+}
+
+size_t Board::searchOneDirection(SquareCoordinates coordinates, int searchDirR, int searchDirC)
 {
     std::vector<Square*> squaresToTurn;
     
