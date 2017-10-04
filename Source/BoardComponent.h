@@ -53,6 +53,7 @@ public:
 
 private:
     void updateWholeBoard();
+    void addSquareComponent(int r, int c, int squareSize, int rGapSize, int cGapSize);
     OwnedArray<SquareComponent> squareComponents;
     Board board;
 

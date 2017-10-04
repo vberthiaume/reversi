@@ -26,7 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Square.h"
 
-struct SquareComponent : public TextButton
+struct SquareComponent 
+    : public TextButton
+    //, public ImageComponent
 {
 public:
     SquareComponent(Square::SquareState p_state = Square::SquareState::empty, SquareCoordinates p_coordinates = SquareCoordinates(0,0))

@@ -23,38 +23,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "BoardComponent.h"
 #include <algorithm>
+#include <string>
 
 BoardComponent::BoardComponent()
 {
     startTimer(100);
-    setSize(600, 600);
-    
-    Grid grid;
-    grid.rowGap = 2_px;
-    grid.columnGap = 2_px;
-    
+    int squareSize = 75;
+    int gapSize = 5;
+    int boardSize = board.getBoardSize();
+    int sideSize = boardSize*squareSize + (boardSize-1)*gapSize;
+    setSize(sideSize, sideSize);
+
     //build the board
-    for (int r = 0; r < board.getBoardSize(); ++r)
-    {
-        for (int c = 0; c < board.getBoardSize(); ++c)
+    for (int r = 0; r < boardSize; ++r)
+        for (int c = 0; c < boardSize; ++c)
         {
-            SquareComponent *squareComp = new SquareComponent(Square::empty, SquareCoordinates(r, c));
-            squareComp->addListener(this);
-            squareComponents.add(squareComp);
-            addAndMakeVisible(squareComp);
+            if (r == 0 && c == 0)
+                addSquareComponent(r, c, squareSize, 0, 0);
+            else if (r == 0)
+                addSquareComponent(r, c, squareSize, 0, gapSize);
+            else if (c == 0)
+                addSquareComponent(r, c, squareSize, gapSize, 0);
+            else
+                addSquareComponent(r, c, squareSize, gapSize, gapSize);
         }
-
-        grid.templateRows.add(Grid::TrackInfo(1_fr));
-        grid.templateColumns.add(Grid::TrackInfo(1_fr));
-    }
-
-    //place the squares component in a grid
-    for (SquareComponent *squareComp : squareComponents)
-        grid.items.add(squareComp);
-    grid.performLayout(getLocalBounds());
-
+    
     //sort in order to use binary search to resolve which squareComponent was clicked on
     std::sort(squareComponents.begin(), squareComponents.end());
+}
+
+void BoardComponent::addSquareComponent(int r, int c, int squareSize, int rGapSize, int cGapSize)
+{
+    SquareComponent *squareComp = new SquareComponent(Square::empty, SquareCoordinates(r, c));
+    squareComp->addListener(this);
+    squareComponents.add(squareComp);
+
+    squareComp->setBounds(c*(squareSize + cGapSize), r*(squareSize + rGapSize), squareSize, squareSize);
+    addAndMakeVisible(squareComp);
+    std::string position = std::to_string(c*squareSize + cGapSize) + " " + std::to_string(r*squareSize + rGapSize);
+    DBG(position);
 }
 
 void BoardComponent::timerCallback()

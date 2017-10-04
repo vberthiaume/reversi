@@ -69,6 +69,7 @@ void MainComponent::resized()
     setSize(width, height + labelHeight);
 }
 
+//TODO: this event needs to receive a structure that says whose turn it is, if we need to reset and scores
 void MainComponent::BoardComponentChanged(Scores scores, bool needToReset)
 {
     blackScoreLabel->setText("BLACK: " + std::to_string(scores.black), dontSendNotification);

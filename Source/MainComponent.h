@@ -75,8 +75,11 @@ private:
         else
         {
             flashAlpha += 0.075f;
-            if (flashAlpha > 0.95f)
+            if (flashAlpha > 0.90f)
+            {
+                flashAlpha = 0.9f;
                 isFadingOut = true;
+            }
         }
 
         repaint();

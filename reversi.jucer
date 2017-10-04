@@ -5,23 +5,7 @@
               companyName="BMP4" includeBinaryInAppConfig="1" displaySplashScreen="0"
               reportAppUsage="0" splashScreenColour="Dark" cppLanguageStandard="11">
   <EXPORTFORMATS>
-    <VS2017 targetFolder="Builds/VisualStudio2017" smallIcon="J3WGof" bigIcon="J3WGof">
-      <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="1" optimisation="1" targetName="Reversi"/>
-        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
-                       isDebug="0" optimisation="3" targetName="Reversi"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_gui_extra" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_gui_basics" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_graphics" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_events" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_data_structures" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_core" path="..\..\sdks\JUCE-5.1.2\modules"/>
-      </MODULEPATHS>
-    </VS2017>
-    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="J3WGof" bigIcon="J3WGof">
+    <VS2015 targetFolder="Builds/VisualStudio2015" smallIcon="Mzapf8" bigIcon="Mzapf8">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="x64"
                        isDebug="1" optimisation="1" targetName="Reversi"/>
@@ -58,17 +42,20 @@
       <FILE id="FDJE1P" name="Square.h" compile="0" resource="0" file="Source/Square.h"/>
     </GROUP>
     <GROUP id="{E9B7EAEF-6D5D-1CCF-78AE-BED85FFD3BDB}" name="Resources">
-      <FILE id="J3WGof" name="reversigame_reversi_6124.png" compile="0" resource="1"
-            file="Resources/reversigame_reversi_6124.png"/>
+      <FILE id="xEWLxl" name="blackChip.png" compile="0" resource="1" file="Resources/blackChip.png"/>
+      <FILE id="Mzapf8" name="reversiIcon.png" compile="0" resource="1" file="Resources/reversiIcon.png"/>
+      <FILE id="Leon5a" name="whiteChip.png" compile="0" resource="1" file="Resources/whiteChip.png"/>
+      <FILE id="Ov75KC" name="woodenSquare.png" compile="0" resource="1"
+            file="Resources/woodenSquare.png"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS/>
   <MODULES>
-    <MODULE id="juce_core" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_events" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
-    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
 </JUCERPROJECT>
