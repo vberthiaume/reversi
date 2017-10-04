@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Board.h"
 #include "assert.h"
 #include <vector>
+#include <iostream>
 
 Board::Board()
 {
@@ -62,7 +63,7 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
 
     if (square.state == Square::empty)
     {
-        int numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
+        size_t numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
         if (numberTurned > 0)
         {
             if (isBlackTurn)
@@ -78,6 +79,20 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
                 scores.black -= numberTurned;
             }
             isBlackTurn = !isBlackTurn;
+            //check if it is possible for the new player to play
+            updatePossibleMoves();
+            if (isBlackTurn && !possibleMoves.blackCanPlay || !isBlackTurn && !possibleMoves.whiteCanPlay)
+            {
+                isBlackTurn = !isBlackTurn;
+                updatePossibleMoves();
+                if (isBlackTurn && !possibleMoves.blackCanPlay || !isBlackTurn && !possibleMoves.whiteCanPlay)
+                {
+                    //game over need to do something!!!
+                    BoardChangeEvent event(scores, isBlackTurn, true, 0, 0);
+                    boardChangeListenerList.notifyAllListeners(event);
+                    return square.state;
+                }
+            }
             BoardChangeEvent event(scores, isBlackTurn, false, 0, 0);
             boardChangeListenerList.notifyAllListeners(event);
         }
@@ -88,8 +103,43 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
 
 void Board::updatePossibleMoves()
 {
-    //possibleMoves.black = searchAllDirections(true, coordinate, false);
-    //possibleMoves.white = searchAllDirections(false, coordinate, false);
+    bool foundBlack = false;
+    bool foundWhite = false;
+    size_t possibleBlack = 0;
+    size_t possibleWhite = 0;
+    bool searchForBlack;
+        
+    for (int i = 0; i < BOARD_SIZE; ++i)
+    {    
+        for (int j = 0; j < BOARD_SIZE; ++j)
+        {    
+            SquareCoordinates coord(i, j);
+            if (!foundBlack)
+            {
+                searchForBlack = true;
+                possibleBlack = searchAllDirections(searchForBlack, coord, true);
+                if (possibleBlack > 0)
+                    foundBlack = true;
+            }
+            if(!foundWhite)
+            {
+                searchForBlack = false;
+                possibleWhite = searchAllDirections(searchForBlack, coord, true);
+                if(possibleWhite > 0)
+                    foundWhite = true;
+            }
+            if (foundBlack && foundWhite)
+            {
+                possibleMoves.blackCanPlay = possibleBlack > 0;
+                possibleMoves.whiteCanPlay = possibleWhite > 0;
+                return; //we found black and white possibilities;
+            }
+        }
+    }
+    int i = 0;
+    i++;
+   std::cout << "game over!";
+        
 }
 
 size_t Board::searchAllDirections(bool curIsBlack, SquareCoordinates coordinate, bool justCheckForAtLeastOnePossibility)

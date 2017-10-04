@@ -24,20 +24,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #ifndef BOARD_SIZE
-#define BOARD_SIZE 8
+#define BOARD_SIZE 4
 #endif
 
 #include "Square.h"
 #include <vector>
 
 struct Scores {
-    int black = 2;
-    int white = 2;
+    size_t black = 2;
+    size_t white = 2;
 };
 
 struct PossibleMoves {
     std::vector<SquareCoordinates> black;
     std::vector<SquareCoordinates> white;
+
+    bool blackCanPlay;
+    bool whiteCanPlay;
 };
 
 struct BoardChangeEvent
