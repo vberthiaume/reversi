@@ -94,9 +94,9 @@ public:
     void addBoardBoardChangeListener(BoardChangeListener* listener){ boardChangeListenerList.push_back(listener); }
 
 private:
-    size_t searchAllDirections(SquareCoordinates coordinate);
-    size_t searchOneDirection(SquareCoordinates coordinates, int searchDirR, int searchDirC);
-    bool updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare);
+    size_t searchAllDirections(bool curIsBlack, SquareCoordinates coordinate, bool actuallyTurnSquares);
+    size_t searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, int searchDirR, int searchDirC, bool actuallyTurnSquares);
+    bool addSquaresToTurn(bool isBlackTurn, std::vector<Square*> &squaresToTurn_OUT, Square &curSquare, bool justCheckForAtLeastOnePossibility);
     void updatePossibleMoves();
 
     bool isBlackTurn;

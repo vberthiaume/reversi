@@ -62,7 +62,7 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
 
     if (square.state == Square::empty)
     {
-        int numberTurned = searchAllDirections(coordinate);
+        int numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
         if (numberTurned > 0)
         {
             if (isBlackTurn)
@@ -88,10 +88,11 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
 
 void Board::updatePossibleMoves()
 {
-
+    //possibleMoves.black = searchAllDirections(true, coordinate, false);
+    //possibleMoves.white = searchAllDirections(false, coordinate, false);
 }
 
-size_t Board::searchAllDirections(SquareCoordinates coordinate)
+size_t Board::searchAllDirections(bool curIsBlack, SquareCoordinates coordinate, bool justCheckForAtLeastOnePossibility)
 {
     size_t numberTurned = 0;
     for(int deltaR = -1; deltaR <= 1; ++deltaR)
@@ -100,13 +101,14 @@ size_t Board::searchAllDirections(SquareCoordinates coordinate)
         {
             if(deltaR == 0 && deltaC == 0)
                 continue;
-            numberTurned += searchOneDirection(coordinate, deltaR, deltaC);
+            numberTurned += searchOneDirection(curIsBlack, coordinate, deltaR, deltaC, justCheckForAtLeastOnePossibility);
         }
     }
     return numberTurned;
 }
 
-size_t Board::searchOneDirection(SquareCoordinates coordinates, int searchDirR, int searchDirC)
+size_t Board::searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, int searchDirR, 
+                                 int searchDirC, bool justCheckForAtLeastOnePossibility)
 {
     std::vector<Square*> squaresToTurn;
     
@@ -117,7 +119,7 @@ size_t Board::searchOneDirection(SquareCoordinates coordinates, int searchDirR, 
         int c = coordinates.c + searchDirC;
         while(r > 0 && r < BOARD_SIZE && c > 0 && c < BOARD_SIZE)
         { 
-            if (updateSquaresToTurn(squaresToTurn, board[r][c]))
+            if (addSquaresToTurn(curIsBlack, squaresToTurn, board[r][c], justCheckForAtLeastOnePossibility))
                 return squaresToTurn.size();
             r += searchDirR;
             c += searchDirC;
@@ -128,7 +130,7 @@ size_t Board::searchOneDirection(SquareCoordinates coordinates, int searchDirR, 
     else if (searchDirR == 0 && searchDirC != 0)
     {
         for (int c = coordinates.c + searchDirC; c > 0 && c < BOARD_SIZE; c += searchDirC)
-            if (updateSquaresToTurn(squaresToTurn, board[coordinates.r][c]))
+            if (addSquaresToTurn(curIsBlack, squaresToTurn, board[coordinates.r][c], justCheckForAtLeastOnePossibility))
                 return squaresToTurn.size();
     }
 
@@ -136,7 +138,7 @@ size_t Board::searchOneDirection(SquareCoordinates coordinates, int searchDirR, 
     else if (searchDirR != 0 && searchDirC == 0)
     {
         for (int r = coordinates.r + searchDirR; r > 0 && r < BOARD_SIZE; r += searchDirR)
-            if (updateSquaresToTurn(squaresToTurn, board[r][coordinates.c]))
+            if (addSquaresToTurn(curIsBlack, squaresToTurn, board[r][coordinates.c], justCheckForAtLeastOnePossibility))
                 return squaresToTurn.size();
     }
 
@@ -144,28 +146,32 @@ size_t Board::searchOneDirection(SquareCoordinates coordinates, int searchDirR, 
     return 0;
 }
 
-bool Board::updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare)
+bool Board::addSquaresToTurn(bool curIsBlack, std::vector<Square*> &squaresToTurn_OUT, Square &curSquare, bool justCheckForAtLeastOnePossibility)
 {
-    Square::SquareState currentPlayer = isBlackTurn ? Square::black : Square::white;
-    Square::SquareState otherPlayer = isBlackTurn ? Square::white : Square::black;
+    bool doneSearching;
+    Square::SquareState currentPlayer = curIsBlack ? Square::black : Square::white;
+    Square::SquareState otherPlayer   = curIsBlack ? Square::white : Square::black;
 
     if (curSquare.getState() == otherPlayer)
     {
         squaresToTurn_OUT.push_back(&curSquare);
-        return false;
+        doneSearching = false;
     }
     else if (curSquare.getState() == currentPlayer && squaresToTurn_OUT.size() > 0)
     {
-        for (auto square : squaresToTurn_OUT)
-            square->setState(currentPlayer);
-        //changed = true;
-        return true;
+        if (!justCheckForAtLeastOnePossibility)
+        {
+            for(auto square : squaresToTurn_OUT)
+                square->setState(currentPlayer);
+        }
+        doneSearching = true;
     }
     else 
     {
         squaresToTurn_OUT.clear();
-        return true;
+        doneSearching = true;
     }
+    return doneSearching;
 }
 
 Square::SquareState Board::getSquareState(SquareCoordinates coordinates)
