@@ -35,20 +35,40 @@ struct Scores {
     int white = 2;
 };
 
+struct BoardChangeEvent
+{
+    BoardChangeEvent() {}
+
+    BoardChangeEvent(Scores p_scores, bool p_isBlackTurn, bool p_needToReset, 
+                    int p_numBlackMovesRemaining, int p_numWhiteMovesRemaining)
+        : scores (p_scores)
+        , isBlackTurn (p_isBlackTurn)
+        , needToReset(p_needToReset)
+        , numBlackMovesRemaining(p_numBlackMovesRemaining)
+        , numWhiteMovesRemaining(p_numWhiteMovesRemaining)
+    {}
+
+    Scores scores;
+    bool isBlackTurn = true;
+    bool needToReset = false;
+    int numBlackMovesRemaining = 0;
+    int numWhiteMovesRemaining = 0;
+};
+
 class BoardChangeListener
 {
 public:
-    virtual void BoardChanged(Scores scores, bool needToReset) = 0;
+    virtual void BoardChanged(const BoardChangeEvent &event) = 0;
 };
 
 
 class BoardChangeListenerList : public std::vector<BoardChangeListener*>
 {
 public:
-    void notifyAllListeners(Scores score) 
+    void notifyAllListeners(const BoardChangeEvent &event) 
     {
         for (std::vector<BoardChangeListener*>::iterator it = begin() ; it != end(); ++it)
-            (*it)->BoardChanged(score, false);
+            (*it)->BoardChanged(event);
     }
 };
 
@@ -69,7 +89,7 @@ public:
     void addBoardBoardChangeListener(BoardChangeListener* listener){ boardChangeListenerList.push_back(listener); }
 
 private:
-    int search(SquareCoordinates coordinates, int searchDirR, int searchDirC);
+    size_t search(SquareCoordinates coordinates, int searchDirR, int searchDirC);
     bool updateSquaresToTurn(std::vector<Square*> &squaresToTurn_OUT, Square &curSquare);
     
     BoardChangeListenerList boardChangeListenerList;

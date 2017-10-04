@@ -74,13 +74,21 @@ void MainComponent::resized()
 }
 
 //TODO: this event needs to receive a structure that says whose turn it is, if we need to reset and scores
-void MainComponent::BoardChanged(Scores scores, bool needToReset)
+void MainComponent::BoardChanged(const BoardChangeEvent &event)
 {
-    blackScoreLabel->setText("BLACK: " + std::to_string(scores.black), dontSendNotification);
-    whiteScoreLabel->setText("WHITE: " + std::to_string(scores.white), dontSendNotification);
-
-    blackScoreRectangle->startFlashing();
-    whiteScoreRectangle->startFlashing();
+    blackScoreLabel->setText("BLACK: " + std::to_string(event.scores.black), dontSendNotification);
+    whiteScoreLabel->setText("WHITE: " + std::to_string(event.scores.white), dontSendNotification);
+    
+    if (event.isBlackTurn)
+    {
+        blackScoreRectangle->startFlashing();
+        whiteScoreRectangle->stopFlashing();
+    }
+    else
+    {
+        whiteScoreRectangle->startFlashing();
+        blackScoreRectangle->stopFlashing();
+    }
 }
 
 

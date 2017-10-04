@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Board::Board()
 {
-    //initBoard();
 }
 
 Board::~Board()
@@ -52,7 +51,7 @@ void Board::initBoard()
     board[middle - 1][middle].state     = Square::white;
     board[middle][middle - 1].state     = Square::white;
 
-    boardChangeListenerList.notifyAllListeners(getScores());
+    boardChangeListenerList.notifyAllListeners(BoardChangeEvent());
 }
 
 Square::SquareState Board::placeChip(SquareCoordinates coordinate)
@@ -85,17 +84,15 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
                 scores.black -= numberTurned;
             }
             isBlackTurn = !isBlackTurn;
-
-            //for (BoardChangeListener* listener : boardChangeListenerList)
-            //    listener->BoardChanged(getScores(), false);
-            boardChangeListenerList.notifyAllListeners(getScores());
+            BoardChangeEvent event(scores, isBlackTurn, false, 0, 0);
+            boardChangeListenerList.notifyAllListeners(event);
         }
     }
     
     return square.state;
 }
 
-int Board::search(SquareCoordinates coordinates, int searchDirR, int searchDirC)
+size_t Board::search(SquareCoordinates coordinates, int searchDirR, int searchDirC)
 {
     std::vector<Square*> squaresToTurn;
     

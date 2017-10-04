@@ -37,25 +37,31 @@ public:
         : flashAlpha(0.0f)
         , colour(Colours::darkgreen)
         , isFadingOut(true)
+        , isFlashing(false)
     { }
 
     void startFlashing()
     {
+        isFlashing = true;
         flashAlpha = 1.0f;
         startTimerHz(25);
     }
 
     void stopFlashing()
     {
-        flashAlpha = 0.0f;
+        isFlashing = false;
         stopTimer();
+        flashAlpha = 0.0f;
         repaint();
     }
 
     void paint(Graphics& g) override
     {
         Rectangle<float> area(getLocalBounds().toFloat().reduced(2.0f));
-        g.setColour(colour.overlaidWith(Colours::white.withAlpha(flashAlpha)));
+        if (isFlashing)
+            g.setColour(colour.overlaidWith(Colours::white.withAlpha(flashAlpha)));
+        else
+            g.setColour(Colours::black);
         g.drawRoundedRectangle(area, 10.0f, 2.0f);
     }
 
@@ -63,6 +69,7 @@ private:
     float flashAlpha;
     Colour colour;
     bool isFadingOut;
+    bool isFlashing;
 
     void timerCallback() override
     {
@@ -70,14 +77,17 @@ private:
         {
             flashAlpha -= 0.075f;
             if (flashAlpha < 0.05f)
+            {
+                flashAlpha = 0.05f;
                 isFadingOut = false;
+            }
         }
         else
         {
             flashAlpha += 0.075f;
-            if (flashAlpha > 0.90f)
+            if (flashAlpha > 0.95f)
             {
-                flashAlpha = 0.9f;
+                flashAlpha = 0.95f;
                 isFadingOut = true;
             }
         }
@@ -98,7 +108,7 @@ public:
 
     void paint (Graphics& g) override;
     void resized() override;
-    void BoardChanged(Scores scores, bool needToReset) override;
+    void BoardChanged(const BoardChangeEvent &event) override;
 
 private:
     Board board;

@@ -26,13 +26,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Square.h"
 
-#ifndef USE_IMAGES
-#define USE_IMAGES 1
-#endif
+//#ifndef USE_IMAGES
+//#define USE_IMAGES 1
+//#endif
 
 struct SquareComponent 
     : public TextButton
-    //, public ImageComponent
 {
 public:
     SquareComponent(Square::SquareState p_state = Square::SquareState::empty, SquareCoordinates p_coordinates = SquareCoordinates(0,0))

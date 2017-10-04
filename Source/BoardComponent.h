@@ -40,7 +40,7 @@ public:
 
     void buttonClicked(Button* buttonThatWasClicked) override;
 
-    void BoardChanged(Scores scores, bool needToReset) override;
+    void BoardChanged(const BoardChangeEvent &event) override;
 
 private:
     void updateWholeBoard();
