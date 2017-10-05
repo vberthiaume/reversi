@@ -61,28 +61,25 @@ void Board::initBoard()
 Square::SquareState Board::attemptToPlaceChip(SquareCoordinates coordinate)
 {
     Square &square = board[coordinate.r][coordinate.c];
-    //if (square.state == Square::empty)
-    //{
-        size_t numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
-        if (numberTurned > 0)
-        {
-            placeChip(square, numberTurned);
+    size_t numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
+    if (numberTurned > 0)
+    {
+        placeChip(square, numberTurned);
             
-            //change turn
-            isBlackTurn = !isBlackTurn;
+        //change turn
+        isBlackTurn = !isBlackTurn;
             
-            //send event
-            BoardChangeEvent event(scores, isBlackTurn, false, 0, 0);
-            boardChangeListenerList.notifyAllListeners(event);
+        //send event
+        BoardChangeEvent event(scores, isBlackTurn, false, 0, 0);
+        boardChangeListenerList.notifyAllListeners(event);
 #if TEST_MODE
-            //automatically fill the board until game over
-            fillBoard();
+        //automatically fill the board until game over
+        fillBoard();
 #else
-            //check whether any player can play
-            updatePossibleMoves();
+        //check whether any player can play
+        updatePossibleMoves();
 #endif
-        }
-    //}
+    }
     return square.state;
 }
 
@@ -116,7 +113,7 @@ bool Board::updatePossibleMoves()
     else if (isBlackTurn && !possibleMoves.blackCanPlay || !isBlackTurn && !possibleMoves.whiteCanPlay)
     {
         isBlackTurn = !isBlackTurn;
-        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, true, 0, 0));
+        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
     }
 
     return true; 
@@ -162,7 +159,6 @@ void Board::searchWholeBoard()
 
 #if TEST_MODE
 void Board::fillBoard(){
-
     while(updatePossibleMoves()){
         bool placedChip = false;
         for(int r = 0; !placedChip && r < BOARD_SIZE; ++r){
