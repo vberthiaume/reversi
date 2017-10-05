@@ -61,7 +61,6 @@ void Board::initBoard()
 Square::SquareState Board::placeChip(SquareCoordinates coordinate)
 {
     Square &square = board[coordinate.r][coordinate.c];
-
     if (square.state == Square::empty)
     {
         size_t numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
@@ -82,23 +81,23 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
             //change turn
             isBlackTurn = !isBlackTurn;
 
+            BoardChangeEvent event(scores, isBlackTurn, false, 0, 0);
+            boardChangeListenerList.notifyAllListeners(event);
+
             //check whether any player can play
             updatePossibleMoves();
             if (!possibleMoves.blackCanPlay && !possibleMoves.whiteCanPlay)
             {
-                updatePossibleMoves();
                 //no one can play, game over
-                BoardChangeEvent event(scores, isBlackTurn, true, 0, 0);
+                event.needToReset = true;
                 boardChangeListenerList.notifyAllListeners(event);
-                return square.state;
             }
             else if (isBlackTurn && !possibleMoves.blackCanPlay || !isBlackTurn && !possibleMoves.whiteCanPlay)
             {
                 isBlackTurn = !isBlackTurn;
+                event.isBlackTurn = isBlackTurn;
+                boardChangeListenerList.notifyAllListeners(event);
             }
-
-            BoardChangeEvent event(scores, isBlackTurn, false, 0, 0);
-            boardChangeListenerList.notifyAllListeners(event);
         }
     }
     return square.state;
@@ -110,7 +109,6 @@ void Board::updatePossibleMoves()
     bool foundWhite = false;
     size_t possibleBlack = 0;
     size_t possibleWhite = 0;
-    bool searchForBlack;
         
     for (int r = 0; r < BOARD_SIZE; ++r)
     {    

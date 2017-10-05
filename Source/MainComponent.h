@@ -111,6 +111,8 @@ public:
     void BoardChanged(const BoardChangeEvent &event) override;
 
 private:
+    void showGameOverPopUp(size_t blackScore, size_t whiteScore);
+
     Board board;
     const int labelHeight = 50;
 

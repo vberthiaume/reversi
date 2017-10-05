@@ -73,12 +73,13 @@ void MainComponent::resized()
     setSize(width, height + labelHeight);
 }
 
-//TODO: this event needs to receive a structure that says whose turn it is, if we need to reset and scores
 void MainComponent::BoardChanged(const BoardChangeEvent &event)
 {
     if (event.needToReset)
     {
-        AlertWindow::showMessageBox(AlertWindow::InfoIcon, "Game over!", "Game over! Click OK to play again!");
+        blackScoreRectangle->stopFlashing();
+        whiteScoreRectangle->stopFlashing();
+        showGameOverPopUp (event.scores.black, event.scores.white);
         board.initBoard();
         return;
     }
@@ -98,4 +99,16 @@ void MainComponent::BoardChanged(const BoardChangeEvent &event)
     }
 }
 
-
+void MainComponent::showGameOverPopUp(size_t blackScore, size_t whiteScore)
+{
+    std::string text = "Game over! ";
+    if (blackScore > whiteScore)
+        text += "Black won " + std::to_string(blackScore) + " vs " + std::to_string(whiteScore) + ".";
+    else if (whiteScore > blackScore)
+        text += "White won " + std::to_string(whiteScore) + " vs " + std::to_string(blackScore) + ".";
+    else
+        text += "It's a tie, " + std::to_string(whiteScore) + " vs " + std::to_string(blackScore) + ".";
+            
+    text += " Click OK to play again!";
+    AlertWindow::showMessageBox(AlertWindow::InfoIcon, "Game over!", text);
+}
