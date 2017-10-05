@@ -167,7 +167,7 @@ size_t Board::searchOneDirection(bool curIsBlack, SquareCoordinates coordinates,
     {
         int r = coordinates.r + searchDirR;
         int c = coordinates.c + searchDirC;
-        while(r > 0 && r < BOARD_SIZE && c > 0 && c < BOARD_SIZE)
+        while(r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE)
         { 
             if (addSquaresToTurn(curIsBlack, squaresToTurn, board[r][c], justCheckForAtLeastOnePossibility))
                 return squaresToTurn.size();
@@ -179,7 +179,7 @@ size_t Board::searchOneDirection(bool curIsBlack, SquareCoordinates coordinates,
     //searching in the same row
     else if (searchDirR == 0 && searchDirC != 0)
     {
-        for (int c = coordinates.c + searchDirC; c > 0 && c < BOARD_SIZE; c += searchDirC)
+        for (int c = coordinates.c + searchDirC; c >= 0 && c < BOARD_SIZE; c += searchDirC)
             if (addSquaresToTurn(curIsBlack, squaresToTurn, board[coordinates.r][c], justCheckForAtLeastOnePossibility))
                 return squaresToTurn.size();
     }
@@ -187,7 +187,7 @@ size_t Board::searchOneDirection(bool curIsBlack, SquareCoordinates coordinates,
     //searching in the same column
     else if (searchDirR != 0 && searchDirC == 0)
     {
-        for (int r = coordinates.r + searchDirR; r > 0 && r < BOARD_SIZE; r += searchDirR)
+        for (int r = coordinates.r + searchDirR; r >= 0 && r < BOARD_SIZE; r += searchDirR)
             if (addSquaresToTurn(curIsBlack, squaresToTurn, board[r][coordinates.c], justCheckForAtLeastOnePossibility))
                 return squaresToTurn.size();
     }
