@@ -27,6 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define BOARD_SIZE 8
 #endif
 
+//#ifndef TEST_MODE
+//#define TEST_MODE 1  
+//#endif
+
 #include "Square.h"
 #include <vector>
 
@@ -88,7 +92,7 @@ public:
 
     void initBoard();
 
-    Square::SquareState placeChip(SquareCoordinates point);
+    Square::SquareState attemptToPlaceChip(SquareCoordinates point);
     Square::SquareState getSquareState(SquareCoordinates point);
 
     int getBoardSize()      { return BOARD_SIZE; }
@@ -96,11 +100,17 @@ public:
 
     void addBoardBoardChangeListener(BoardChangeListener* listener){ boardChangeListenerList.push_back(listener); }
 
+#if TEST_MODE
+    void fillBoard();
+#endif
+
 private:
     size_t searchAllDirections(bool curIsBlack, SquareCoordinates coordinate, bool actuallyTurnSquares);
     size_t searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, int searchDirR, int searchDirC, bool actuallyTurnSquares);
     bool addSquaresToTurn(bool isBlackTurn, std::vector<Square*> &squaresToTurn_OUT, Square &curSquare, bool justCheckForAtLeastOnePossibility);
     void updatePossibleMoves();
+    void searchWholeBoard();
+    void placeChip(Square &square, int numberTurned);
 
     bool isBlackTurn;
 	Square board[BOARD_SIZE][BOARD_SIZE];
