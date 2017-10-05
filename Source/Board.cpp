@@ -52,7 +52,8 @@ void Board::initBoard()
     board[middle - 1][middle].state     = Square::white;
     board[middle][middle - 1].state     = Square::white;
 
-    updatePossibleMoves();
+    //updatePossibleMoves();
+    scores = Scores();
 
     boardChangeListenerList.notifyAllListeners(BoardChangeEvent());
 }
@@ -78,26 +79,28 @@ Square::SquareState Board::placeChip(SquareCoordinates coordinate)
                 scores.white += numberTurned + 1;
                 scores.black -= numberTurned;
             }
+            //change turn
             isBlackTurn = !isBlackTurn;
-            //check if it is possible for the new player to play
+
+            //check whether any player can play
             updatePossibleMoves();
-            if (isBlackTurn && !possibleMoves.blackCanPlay || !isBlackTurn && !possibleMoves.whiteCanPlay)
+            if (!possibleMoves.blackCanPlay && !possibleMoves.whiteCanPlay)
+            {
+                updatePossibleMoves();
+                //no one can play, game over
+                BoardChangeEvent event(scores, isBlackTurn, true, 0, 0);
+                boardChangeListenerList.notifyAllListeners(event);
+                return square.state;
+            }
+            else if (isBlackTurn && !possibleMoves.blackCanPlay || !isBlackTurn && !possibleMoves.whiteCanPlay)
             {
                 isBlackTurn = !isBlackTurn;
-                updatePossibleMoves();
-                if (isBlackTurn && !possibleMoves.blackCanPlay || !isBlackTurn && !possibleMoves.whiteCanPlay)
-                {
-                    //game over need to do something!!!
-                    BoardChangeEvent event(scores, isBlackTurn, true, 0, 0);
-                    boardChangeListenerList.notifyAllListeners(event);
-                    return square.state;
-                }
             }
+
             BoardChangeEvent event(scores, isBlackTurn, false, 0, 0);
             boardChangeListenerList.notifyAllListeners(event);
         }
     }
-    
     return square.state;
 }
 
@@ -109,37 +112,37 @@ void Board::updatePossibleMoves()
     size_t possibleWhite = 0;
     bool searchForBlack;
         
-    for (int i = 0; i < BOARD_SIZE; ++i)
+    for (int r = 0; r < BOARD_SIZE; ++r)
     {    
-        for (int j = 0; j < BOARD_SIZE; ++j)
+        for (int c = 0; c < BOARD_SIZE; ++c)
         {    
-            SquareCoordinates coord(i, j);
-            if (!foundBlack)
+            if(board[r][c].state == Square::empty)
             {
-                searchForBlack = true;
-                possibleBlack = searchAllDirections(searchForBlack, coord, true);
-                if (possibleBlack > 0)
-                    foundBlack = true;
-            }
-            if(!foundWhite)
-            {
-                searchForBlack = false;
-                possibleWhite = searchAllDirections(searchForBlack, coord, true);
-                if(possibleWhite > 0)
-                    foundWhite = true;
-            }
-            if (foundBlack && foundWhite)
-            {
-                possibleMoves.blackCanPlay = possibleBlack > 0;
-                possibleMoves.whiteCanPlay = possibleWhite > 0;
-                return; //we found black and white possibilities;
+                SquareCoordinates coord(r, c);
+                if(!foundBlack)
+                {
+                    possibleBlack = searchAllDirections(true, coord, true);
+                    if (possibleBlack > 0)
+                        foundBlack = true;
+                }
+                if(!foundWhite)
+                {
+                    possibleWhite = searchAllDirections(false, coord, true);
+                    if(possibleWhite > 0)
+                        foundWhite = true;
+                }
+                if (foundBlack && foundWhite)
+                {
+                    possibleMoves.blackCanPlay = possibleBlack > 0;
+                    possibleMoves.whiteCanPlay = possibleWhite > 0;
+                    return; 
+                }
             }
         }
     }
-    int i = 0;
-    i++;
-   std::cout << "game over!";
-        
+    possibleMoves.blackCanPlay = possibleBlack > 0;
+    possibleMoves.whiteCanPlay = possibleWhite > 0;
+    return; 
 }
 
 size_t Board::searchAllDirections(bool curIsBlack, SquareCoordinates coordinate, bool justCheckForAtLeastOnePossibility)
@@ -169,7 +172,7 @@ size_t Board::searchOneDirection(bool curIsBlack, SquareCoordinates coordinates,
         int c = coordinates.c + searchDirC;
         while(r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE)
         { 
-            if (addSquaresToTurn(curIsBlack, squaresToTurn, board[r][c], justCheckForAtLeastOnePossibility))
+            if(addSquaresToTurn(curIsBlack, squaresToTurn, board[r][c], justCheckForAtLeastOnePossibility))
                 return squaresToTurn.size();
             r += searchDirR;
             c += searchDirC;

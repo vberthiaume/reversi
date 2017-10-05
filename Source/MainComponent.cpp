@@ -76,6 +76,13 @@ void MainComponent::resized()
 //TODO: this event needs to receive a structure that says whose turn it is, if we need to reset and scores
 void MainComponent::BoardChanged(const BoardChangeEvent &event)
 {
+    if (event.needToReset)
+    {
+        AlertWindow::showMessageBox(AlertWindow::InfoIcon, "Game over!", "Game over! Click OK to play again!");
+        board.initBoard();
+        return;
+    }
+
     blackScoreLabel->setText("BLACK: " + std::to_string(event.scores.black), dontSendNotification);
     whiteScoreLabel->setText("WHITE: " + std::to_string(event.scores.white), dontSendNotification);
     
