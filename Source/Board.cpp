@@ -102,7 +102,7 @@ void Board::placeChip(Square &square, int numberTurned)
     }
 }
 
-void Board::updatePossibleMoves()
+bool Board::updatePossibleMoves()
 {
     searchWholeBoard();
 
@@ -110,15 +110,16 @@ void Board::updatePossibleMoves()
     if (!possibleMoves.blackCanPlay && !possibleMoves.whiteCanPlay)
     {
         boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, true, 0, 0));
+        return false;
     }
     //current player can't play, go back to other player
     else if (isBlackTurn && !possibleMoves.blackCanPlay || !isBlackTurn && !possibleMoves.whiteCanPlay)
     {
         isBlackTurn = !isBlackTurn;
-        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
+        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, true, 0, 0));
     }
 
-    return; 
+    return true; 
 }
 
 void Board::searchWholeBoard()
@@ -161,42 +162,19 @@ void Board::searchWholeBoard()
 
 #if TEST_MODE
 void Board::fillBoard(){
-    while(true){
-        bool placedBlack = false;
-        bool placedwhite = false;
-        
-        if(isBlackTurn){
-            for(int r = 0; !placedBlack && r < BOARD_SIZE; ++r){
-                for(int c = 0; !placedBlack && c < BOARD_SIZE; ++c){
-                    int toTurn = searchAllDirections(true, SquareCoordinates(r, c), false);
-                    if(toTurn > 0){
-                        placeChip(board[r][c], toTurn);
-                        isBlackTurn = false;
-                        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
-                        placedBlack = true;
-                    }
+
+    while(updatePossibleMoves()){
+        bool placedChip = false;
+        for(int r = 0; !placedChip && r < BOARD_SIZE; ++r){
+            for(int c = 0; !placedChip && c < BOARD_SIZE; ++c){
+                int toTurn = searchAllDirections(isBlackTurn, SquareCoordinates(r, c), false);
+                if(toTurn > 0){
+                    placeChip(board[r][c], toTurn);
+                    isBlackTurn = !isBlackTurn;
+                    boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
+                    placedChip = true;
                 }
             }
-
-        //white turn
-        } else {
-            for(int r = 0; !placedwhite && r < BOARD_SIZE; ++r){
-                for(int c = 0; !placedwhite && c < BOARD_SIZE; ++c){
-                    int toTurn = searchAllDirections(false, SquareCoordinates(r, c), false);
-                    if(toTurn > 0){
-                        placeChip(board[r][c], toTurn);
-                        isBlackTurn = true;
-                        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
-                        placedwhite = true;
-                    }
-                }
-            }
-        }
-
-        //coudn't place anything, game over!
-        if(!placedBlack && !placedwhite){
-            boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, true, 0, 0));
-            return;
         }
     }
 }
