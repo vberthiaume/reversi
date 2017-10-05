@@ -24,12 +24,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #ifndef BOARD_SIZE
-#define BOARD_SIZE 8
+#define BOARD_SIZE 4
 #endif
 
-//#ifndef TEST_MODE
-//#define TEST_MODE 1  
-//#endif
+#ifndef TEST_MODE
+#define TEST_MODE 1  
+#endif
 
 #include "Square.h"
 #include <vector>

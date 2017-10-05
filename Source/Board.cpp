@@ -61,8 +61,8 @@ void Board::initBoard()
 Square::SquareState Board::attemptToPlaceChip(SquareCoordinates coordinate)
 {
     Square &square = board[coordinate.r][coordinate.c];
-    if (square.state == Square::empty)
-    {
+    //if (square.state == Square::empty)
+    //{
         size_t numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
         if (numberTurned > 0)
         {
@@ -75,14 +75,14 @@ Square::SquareState Board::attemptToPlaceChip(SquareCoordinates coordinate)
             BoardChangeEvent event(scores, isBlackTurn, false, 0, 0);
             boardChangeListenerList.notifyAllListeners(event);
 #if TEST_MODE
-            //automatically fill the board until
+            //automatically fill the board until game over
             fillBoard();
 #else
             //check whether any player can play
             updatePossibleMoves();
 #endif
         }
-    }
+    //}
     return square.state;
 }
 
@@ -109,16 +109,13 @@ void Board::updatePossibleMoves()
     //no one can play, game over
     if (!possibleMoves.blackCanPlay && !possibleMoves.whiteCanPlay)
     {
-        
-        BoardChangeEvent event(scores, isBlackTurn, true, 0, 0);
-        boardChangeListenerList.notifyAllListeners(event);
+        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, true, 0, 0));
     }
     //current player can't play, go back to other player
     else if (isBlackTurn && !possibleMoves.blackCanPlay || !isBlackTurn && !possibleMoves.whiteCanPlay)
     {
         isBlackTurn = !isBlackTurn;
-        BoardChangeEvent event(scores, isBlackTurn, false, 0, 0);
-        boardChangeListenerList.notifyAllListeners(event);
+        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
     }
 
     return; 
@@ -163,27 +160,53 @@ void Board::searchWholeBoard()
 }
 
 #if TEST_MODE
-void Board::fillBoard()
-{
-    while (possibleMoves.blackCanPlay || possibleMoves.whiteCanPlay)
-    {
+void Board::fillBoard(){
+    while(true){
+        bool placedBlack = false;
+        bool placedwhite = false;
         
-        for(int r = 0; r < BOARD_SIZE; ++r){
-            for(int c = 0; c < BOARD_SIZE; ++c){
-                SquareCoordinates coord(r, c);
-                if (searchAllDirections(isBlackTurn, coord, false) > 0) {
-                    isBlackTurn = !isBlackTurn;
+        if(isBlackTurn){
+            for(int r = 0; !placedBlack && r < BOARD_SIZE; ++r){
+                for(int c = 0; !placedBlack && c < BOARD_SIZE; ++c){
+                    int toTurn = searchAllDirections(true, SquareCoordinates(r, c), false);
+                    if(toTurn > 0){
+                        placeChip(board[r][c], toTurn);
+                        isBlackTurn = false;
+                        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
+                        placedBlack = true;
+                    }
+                }
+            }
+
+        //white turn
+        } else {
+            for(int r = 0; !placedwhite && r < BOARD_SIZE; ++r){
+                for(int c = 0; !placedwhite && c < BOARD_SIZE; ++c){
+                    int toTurn = searchAllDirections(false, SquareCoordinates(r, c), false);
+                    if(toTurn > 0){
+                        placeChip(board[r][c], toTurn);
+                        isBlackTurn = true;
+                        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
+                        placedwhite = true;
+                    }
                 }
             }
         }
 
-
+        //coudn't place anything, game over!
+        if(!placedBlack && !placedwhite){
+            boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, true, 0, 0));
+            return;
+        }
     }
 }
 #endif
 
 size_t Board::searchAllDirections(bool curIsBlack, SquareCoordinates coordinate, bool justCheckForAtLeastOnePossibility)
 {
+    if(board[coordinate.r][coordinate.c].state != Square::empty)
+        return 0;
+
     size_t numberTurned = 0;
     for(int deltaR = -1; deltaR <= 1; ++deltaR)
     {
