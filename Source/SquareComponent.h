@@ -41,8 +41,8 @@ public:
     {
 #if USE_IMAGES
         emptySquare = ImageFileFormat::loadFrom(BinaryData::greenSquare_png, (size_t)BinaryData::greenSquare_pngSize);
-        blackChip = ImageFileFormat::loadFrom(BinaryData::blackChip225_png, (size_t)BinaryData::blackChip225_pngSize);
-        whiteChip = ImageFileFormat::loadFrom(BinaryData::whiteChip225_png, (size_t)BinaryData::whiteChip225_pngSize);
+        blackDisk = ImageFileFormat::loadFrom(BinaryData::blackChip225_png, (size_t)BinaryData::blackChip225_pngSize);
+        whiteDisk = ImageFileFormat::loadFrom(BinaryData::whiteChip225_png, (size_t)BinaryData::whiteChip225_pngSize);
 #endif
     }
 
@@ -59,7 +59,7 @@ public:
             break;
         case Square::black:
 #if USE_IMAGES
-            g.drawImage(blackChip, getLocalBounds().toFloat(), RectanglePlacement::centred);
+            g.drawImage(blackDisk, getLocalBounds().toFloat(), RectanglePlacement::centred);
 #else
             g.setColour(Colours::black);
             g.fillEllipse(getLocalBounds().toFloat());
@@ -67,7 +67,7 @@ public:
             break;
         case Square::white:
 #if USE_IMAGES
-            g.drawImage(whiteChip, getLocalBounds().toFloat(), RectanglePlacement::centred);
+            g.drawImage(whiteDisk, getLocalBounds().toFloat(), RectanglePlacement::centred);
 #else
             g.setColour(Colours::white);
             g.fillEllipse(getLocalBounds().toFloat());
@@ -94,8 +94,8 @@ public:
 
 private:
     Image emptySquare;
-    Image blackChip;
-    Image whiteChip;
+    Image blackDisk;
+    Image whiteDisk;
     Square::SquareState state;
     SquareCoordinates coordinates;
 };

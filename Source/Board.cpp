@@ -58,13 +58,13 @@ void Board::initBoard()
     boardChangeListenerList.notifyAllListeners(BoardChangeEvent());
 }
 
-Square::SquareState Board::attemptToPlaceChip(SquareCoordinates coordinate)
+Square::SquareState Board::attemptToPlaceDisk(SquareCoordinates coordinate)
 {
     Square &square = board[coordinate.r][coordinate.c];
     size_t numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
     if (numberTurned > 0)
     {
-        placeChip(square, numberTurned);
+        placeDisk(square, numberTurned);
             
         //change turn
         isBlackTurn = !isBlackTurn;
@@ -83,7 +83,7 @@ Square::SquareState Board::attemptToPlaceChip(SquareCoordinates coordinate)
     return square.state;
 }
 
-void Board::placeChip(Square &square, size_t numberTurned)
+void Board::placeDisk(Square &square, size_t numberTurned)
 {
     if (isBlackTurn)
     {
@@ -160,15 +160,15 @@ void Board::searchWholeBoard()
 #if TEST_MODE
 void Board::fillBoard(){
     while(updatePossibleMoves()){
-        bool placedChip = false;
-        for(int r = 0; !placedChip && r < BOARD_SIZE; ++r){
-            for(int c = 0; !placedChip && c < BOARD_SIZE; ++c){
+        bool placedDisk = false;
+        for(int r = 0; !placedDisk && r < BOARD_SIZE; ++r){
+            for(int c = 0; !placedDisk && c < BOARD_SIZE; ++c){
                 int toTurn = searchAllDirections(isBlackTurn, SquareCoordinates(r, c), false);
                 if(toTurn > 0){
-                    placeChip(board[r][c], toTurn);
+                    placeDisk(board[r][c], toTurn);
                     isBlackTurn = !isBlackTurn;
                     boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
-                    placedChip = true;
+                    placedDisk = true;
                 }
             }
         }

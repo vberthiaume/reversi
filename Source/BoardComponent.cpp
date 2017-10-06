@@ -85,7 +85,7 @@ void BoardComponent::buttonClicked(Button* buttonThatWasClicked)
     SquareComponent* squareComp = reinterpret_cast<SquareComponent*>(buttonThatWasClicked);
 
     if (std::binary_search(squareComponents.begin(), squareComponents.end(), squareComp))
-        squareComp->setState(board->attemptToPlaceChip(squareComp->getCoordinates()));
+        squareComp->setState(board->attemptToPlaceDisk(squareComp->getCoordinates()));
     else
         jassertfalse; //buttonThatWasClicked not in squareComponents!
 }

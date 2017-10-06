@@ -92,7 +92,7 @@ public:
 
     void initBoard();
 
-    Square::SquareState attemptToPlaceChip(SquareCoordinates point);
+    Square::SquareState attemptToPlaceDisk(SquareCoordinates point);
     Square::SquareState getSquareState(SquareCoordinates point);
 
     int getBoardSize()      { return BOARD_SIZE; }
@@ -110,7 +110,7 @@ private:
     bool addSquaresToTurn(bool isBlackTurn, std::vector<Square*> &squaresToTurn_OUT, Square &curSquare, bool justCheckForAtLeastOnePossibility);
     bool updatePossibleMoves();
     void searchWholeBoard();
-    void placeChip(Square &square, size_t numberTurned);
+    void placeDisk(Square &square, size_t numberTurned);
 
     bool isBlackTurn;
 	Square board[BOARD_SIZE][BOARD_SIZE];
