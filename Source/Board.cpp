@@ -158,13 +158,18 @@ void Board::searchWholeBoard()
 }
 
 #if TEST_MODE
-void Board::fillBoard(){
-    while(updatePossibleMoves()){
+void Board::fillBoard()
+{
+    while(updatePossibleMoves())
+    {
         bool placedDisk = false;
-        for(int r = 0; !placedDisk && r < BOARD_SIZE; ++r){
-            for(int c = 0; !placedDisk && c < BOARD_SIZE; ++c){
+        for(int r = 0; !placedDisk && r < BOARD_SIZE; ++r)
+        {
+            for(int c = 0; !placedDisk && c < BOARD_SIZE; ++c)
+            {
                 int toTurn = searchAllDirections(isBlackTurn, SquareCoordinates(r, c), false);
-                if(toTurn > 0){
+                if(toTurn > 0)
+                {
                     placeDisk(board[r][c], toTurn);
                     isBlackTurn = !isBlackTurn;
                     boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
