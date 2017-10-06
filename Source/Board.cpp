@@ -83,7 +83,7 @@ Square::SquareState Board::attemptToPlaceChip(SquareCoordinates coordinate)
     return square.state;
 }
 
-void Board::placeChip(Square &square, int numberTurned)
+void Board::placeChip(Square &square, size_t numberTurned)
 {
     if (isBlackTurn)
     {

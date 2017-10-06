@@ -61,7 +61,7 @@ void BoardComponent::addSquareComponent(int r, int c, int squareSize, int rGapSi
     addAndMakeVisible(squareComp);
 }
 
-void BoardComponent::BoardChanged(const BoardChangeEvent &event)
+void BoardComponent::BoardChanged(const BoardChangeEvent& /*event*/)
 {
     updateWholeBoard();
 }

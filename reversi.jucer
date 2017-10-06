@@ -42,11 +42,14 @@
       <FILE id="FDJE1P" name="Square.h" compile="0" resource="0" file="Source/Square.h"/>
     </GROUP>
     <GROUP id="{E9B7EAEF-6D5D-1CCF-78AE-BED85FFD3BDB}" name="Resources">
+      <FILE id="zYNn8j" name="whiteChip225.png" compile="0" resource="1"
+            file="Resources/whiteChip225.png"/>
+      <FILE id="uP3MGt" name="blackChip225.png" compile="0" resource="1"
+            file="Resources/blackChip225.png"/>
+      <FILE id="acVwKr" name="greenSquare.png" compile="0" resource="1" file="Resources/greenSquare.png"/>
       <FILE id="xEWLxl" name="blackChip.png" compile="0" resource="1" file="Resources/blackChip.png"/>
       <FILE id="Mzapf8" name="reversiIcon.png" compile="0" resource="1" file="Resources/reversiIcon.png"/>
       <FILE id="Leon5a" name="whiteChip.png" compile="0" resource="1" file="Resources/whiteChip.png"/>
-      <FILE id="Ov75KC" name="woodenSquare.png" compile="0" resource="1"
-            file="Resources/woodenSquare.png"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS/>

@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifndef TEST_MODE
-#define TEST_MODE 1  
+#define TEST_MODE 0
 #endif
 
 #include "Square.h"
@@ -110,7 +110,7 @@ private:
     bool addSquaresToTurn(bool isBlackTurn, std::vector<Square*> &squaresToTurn_OUT, Square &curSquare, bool justCheckForAtLeastOnePossibility);
     bool updatePossibleMoves();
     void searchWholeBoard();
-    void placeChip(Square &square, int numberTurned);
+    void placeChip(Square &square, size_t numberTurned);
 
     bool isBlackTurn;
 	Square board[BOARD_SIZE][BOARD_SIZE];

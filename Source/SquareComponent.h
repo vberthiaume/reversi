@@ -26,9 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Square.h"
 
-//#ifndef USE_IMAGES
-//#define USE_IMAGES 1
-//#endif
+#ifndef USE_IMAGES
+#define USE_IMAGES 1
+#endif
 
 struct SquareComponent 
     : public TextButton
@@ -40,16 +40,16 @@ public:
         , coordinates(p_coordinates)
     {
 #if USE_IMAGES
-        woodenBlock = ImageFileFormat::loadFrom(BinaryData::woodenSquare_png, (size_t)BinaryData::woodenSquare_pngSize);
-        blackChip = ImageFileFormat::loadFrom(BinaryData::blackChip_png, (size_t)BinaryData::blackChip_pngSize);
-        whiteChip = ImageFileFormat::loadFrom(BinaryData::whiteChip_png, (size_t)BinaryData::whiteChip_pngSize);
+        emptySquare = ImageFileFormat::loadFrom(BinaryData::greenSquare_png, (size_t)BinaryData::greenSquare_pngSize);
+        blackChip = ImageFileFormat::loadFrom(BinaryData::blackChip225_png, (size_t)BinaryData::blackChip225_pngSize);
+        whiteChip = ImageFileFormat::loadFrom(BinaryData::whiteChip225_png, (size_t)BinaryData::whiteChip225_pngSize);
 #endif
     }
 
     void paint(Graphics& g) override
     {
 #if USE_IMAGES
-        g.drawImage(woodenBlock, getLocalBounds().toFloat(), RectanglePlacement::centred);
+        g.drawImage(emptySquare, getLocalBounds().toFloat(), RectanglePlacement::centred);
 #else
         g.fillAll(Colours::saddlebrown);
 #endif
@@ -93,7 +93,7 @@ public:
     }
 
 private:
-    Image woodenBlock;
+    Image emptySquare;
     Image blackChip;
     Image whiteChip;
     Square::SquareState state;

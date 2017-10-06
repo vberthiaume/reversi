@@ -1667,10 +1667,12 @@
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h"/>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Resources\whiteChip225.png"/>
+    <None Include="..\..\Resources\blackChip225.png"/>
+    <None Include="..\..\Resources\greenSquare.png"/>
     <None Include="..\..\Resources\blackChip.png"/>
     <None Include="..\..\Resources\reversiIcon.png"/>
     <None Include="..\..\Resources\whiteChip.png"/>
-    <None Include="..\..\Resources\woodenSquare.png"/>
     <None Include="..\..\..\..\sdks\JUCE-5.1.2\modules\juce_graphics\image_formats\jpglib\changes to libjpeg for JUCE.txt"/>
     <None Include="..\..\..\..\sdks\JUCE-5.1.2\modules\juce_graphics\image_formats\pnglib\libpng_readme.txt"/>
     <None Include=".\icon.ico"/>

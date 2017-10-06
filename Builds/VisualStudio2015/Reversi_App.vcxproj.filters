@@ -2618,6 +2618,15 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Resources\whiteChip225.png">
+      <Filter>Reversi\Resources</Filter>
+    </None>
+    <None Include="..\..\Resources\blackChip225.png">
+      <Filter>Reversi\Resources</Filter>
+    </None>
+    <None Include="..\..\Resources\greenSquare.png">
+      <Filter>Reversi\Resources</Filter>
+    </None>
     <None Include="..\..\Resources\blackChip.png">
       <Filter>Reversi\Resources</Filter>
     </None>
@@ -2625,9 +2634,6 @@
       <Filter>Reversi\Resources</Filter>
     </None>
     <None Include="..\..\Resources\whiteChip.png">
-      <Filter>Reversi\Resources</Filter>
-    </None>
-    <None Include="..\..\Resources\woodenSquare.png">
       <Filter>Reversi\Resources</Filter>
     </None>
     <None Include="..\..\..\..\sdks\JUCE-5.1.2\modules\juce_graphics\image_formats\jpglib\changes to libjpeg for JUCE.txt">
