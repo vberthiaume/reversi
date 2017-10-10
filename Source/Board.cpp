@@ -63,12 +63,10 @@ Square::SquareState Board::attemptToPlaceDisk(SquareCoordinates coordinate)
     Square &square = board[coordinate.r][coordinate.c];
     std::string coordString = coordinate.to_string();
 
-    //TODO: need to check this move is in possibleMoves, instead of searching all directions
-    //size_t numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
-    int numberTurned = isBlackTurn ? possibleMoves.black[coordString].size() : possibleMoves.white[coordString].size();
-    if (numberTurned > 0)
+    std::vector<SquareCoordinates> &squareCoordsToTurn = isBlackTurn ? possibleMoves.black[coordString] : possibleMoves.white[coordString];
+    if (squareCoordsToTurn.size() > 0)
     {
-        placeDisk(square, numberTurned);
+        placeDisk(square, squareCoordsToTurn);
             
         //change turn
         isBlackTurn = !isBlackTurn;
@@ -87,17 +85,23 @@ Square::SquareState Board::attemptToPlaceDisk(SquareCoordinates coordinate)
     return square.state;
 }
 
-void Board::placeDisk(Square &square, size_t numberTurned)
+void Board::placeDisk(Square &square, std::vector<SquareCoordinates> &squareCoordsToTurn)
 {
+    int numberTurned = squareCoordsToTurn.size();
     if (isBlackTurn)
     {
         square.state = Square::black;
+        for (const SquareCoordinates &coord : squareCoordsToTurn)
+            board[coord.r][coord.c].state = Square::black;
+        
         scores.black += numberTurned + 1;
         scores.white -= numberTurned;
     }
     else
     {
         square.state = Square::white;
+        for(const SquareCoordinates &coord : squareCoordsToTurn)
+            board[coord.r][coord.c].state = Square::white;
         scores.white += numberTurned + 1;
         scores.black -= numberTurned;
     }
@@ -223,18 +227,21 @@ bool Board::addSquaresToTurn(bool curIsBlack, SquareCoordinates originalCoordina
     bool doneSearching;
     Square::SquareState currentPlayer;
     std::vector<SquareCoordinates>*  currentPlayerListToTurn;
+    bool* currentPlayerCanPlay;
     Square::SquareState otherPlayer;
     if (curIsBlack)
     {
         currentPlayer           = Square::black;
         currentPlayerListToTurn = &possibleMoves_OUT.black[originalCoordinates.to_string()];
+        currentPlayerCanPlay    = &possibleMoves_OUT.blackCanPlay;
         otherPlayer             = Square::white;
     }
     else
     {
-        currentPlayer = Square::white;
+        currentPlayer           = Square::white;
         currentPlayerListToTurn = &possibleMoves_OUT.white[originalCoordinates.to_string()];
-        otherPlayer   = Square::black;
+        currentPlayerCanPlay    = &possibleMoves_OUT.whiteCanPlay;
+        otherPlayer             = Square::black;
     }
 
     if (curSquare.getState() == otherPlayer)
@@ -244,6 +251,7 @@ bool Board::addSquaresToTurn(bool curIsBlack, SquareCoordinates originalCoordina
     }
     else if (curSquare.getState() == currentPlayer && currentPlayerListToTurn->size() > 0)
     {
+        *currentPlayerCanPlay = true;
         doneSearching = true;
     }
     else 

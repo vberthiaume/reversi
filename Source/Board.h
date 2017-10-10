@@ -67,8 +67,8 @@ struct Scores
 
 struct PossibleMoves 
 {
-    std::map</*SquareCoordinates*/std::string, std::vector<SquareCoordinates>/*, SquareCoordinateCompare*/> black;
-    std::map</*SquareCoordinates*/std::string, std::vector<SquareCoordinates>/*, SquareCoordinateCompare*/> white;
+    std::map<std::string, std::vector<SquareCoordinates>/*, SquareCoordinateCompare*/> black;
+    std::map<std::string, std::vector<SquareCoordinates>/*, SquareCoordinateCompare*/> white;
 
     bool blackCanPlay = false;
     bool whiteCanPlay = false;
@@ -137,7 +137,7 @@ private:
     bool addSquaresToTurn(bool isBlackTurn, SquareCoordinates originalCoordinates, Square &curSquare, PossibleMoves &possibleMoves_OUT);
     bool updatePossibleMoves();
     void searchWholeBoard();
-    void placeDisk(Square &square, size_t numberTurned);
+    void placeDisk(Square &square, std::vector<SquareCoordinates> &squareCoordsToTurn);
 
     bool isBlackTurn;
 	Square board[BOARD_SIZE][BOARD_SIZE];
