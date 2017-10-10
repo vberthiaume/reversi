@@ -61,10 +61,11 @@ void Board::initBoard()
 Square::SquareState Board::attemptToPlaceDisk(SquareCoordinates coordinate)
 {
     Square &square = board[coordinate.r][coordinate.c];
+    std::string coordString = coordinate.to_string();
 
     //TODO: need to check this move is in possibleMoves, instead of searching all directions
     //size_t numberTurned = searchAllDirections(isBlackTurn, coordinate, false);
-    int numberTurned = isBlackTurn ? possibleMoves.black[coordinate].size() : possibleMoves.white[coordinate].size();
+    int numberTurned = isBlackTurn ? possibleMoves.black[coordString].size() : possibleMoves.white[coordString].size();
     if (numberTurned > 0)
     {
         placeDisk(square, numberTurned);
@@ -226,13 +227,13 @@ bool Board::addSquaresToTurn(bool curIsBlack, SquareCoordinates originalCoordina
     if (curIsBlack)
     {
         currentPlayer           = Square::black;
-        currentPlayerListToTurn = &possibleMoves_OUT.black[originalCoordinates];
+        currentPlayerListToTurn = &possibleMoves_OUT.black[originalCoordinates.to_string()];
         otherPlayer             = Square::white;
     }
     else
     {
         currentPlayer = Square::white;
-        currentPlayerListToTurn = &possibleMoves_OUT.white[originalCoordinates];
+        currentPlayerListToTurn = &possibleMoves_OUT.white[originalCoordinates.to_string()];
         otherPlayer   = Square::black;
     }
 

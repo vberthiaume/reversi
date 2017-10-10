@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 #include <utility>
 #include <math.h>
+#include <string>
 
 //NOTE: I could have gone with std::pair, but I find its usage pretty awkward.
 struct SquareCoordinates
@@ -41,6 +42,8 @@ struct SquareCoordinates
     //    return sqrt(lhs.r*lhs.r + lhs.c*lhs.c) > sqrt(rhs.r*rhs.r + rhs.c*rhs.c);
     //}
     ////float length() { return sqrt(r*r + c*c); }
+
+    std::string to_string() {return std::to_string(r) + std::to_string(c);}
 
     int r;
     int c;

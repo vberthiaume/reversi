@@ -48,22 +48,27 @@ struct Scores
 //    std::vector<SquareCoordinates> otherSquaresToTurn;
 //};
 
-struct SquareCoordinateCompare
-{
-   bool operator() (const SquareCoordinates& lhs, const SquareCoordinates& rhs) const
-   {
-       //return lhs.id < rhs.id;
-       //return sqrt(lhs.r*lhs.r + lhs.c*lhs.c) < sqrt(rhs.r*rhs.r + rhs.c*rhs.c);
-       std::string lhsString(std::to_string(lhs.r) +  std::to_string(lhs.c));
-       std::string rhsString(std::to_string(rhs.r) +  std::to_string(rhs.c));
-       return lhsString.compare(rhsString) == 0;
-   }
-};
+//struct SquareCoordinateCompare
+//{
+//   bool operator() (const SquareCoordinates& lhs, const SquareCoordinates& rhs) const
+//   {
+//       //return lhs.id < rhs.id;
+//       //return sqrt(lhs.r*lhs.r + lhs.c*lhs.c) < sqrt(rhs.r*rhs.r + rhs.c*rhs.c);
+//       std::string lhsString(std::to_string(lhs.r) +  std::to_string(lhs.c));
+//       std::string rhsString(std::to_string(rhs.r) +  std::to_string(rhs.c));
+//       if (lhsString.compare(rhsString) == 0)
+//       {
+//       }
+//       else
+//       {
+//           }
+//   }
+//};
 
 struct PossibleMoves 
 {
-    std::map<SquareCoordinates, std::vector<SquareCoordinates>, SquareCoordinateCompare> black;
-    std::map<SquareCoordinates, std::vector<SquareCoordinates>, SquareCoordinateCompare> white;
+    std::map</*SquareCoordinates*/std::string, std::vector<SquareCoordinates>/*, SquareCoordinateCompare*/> black;
+    std::map</*SquareCoordinates*/std::string, std::vector<SquareCoordinates>/*, SquareCoordinateCompare*/> white;
 
     bool blackCanPlay = false;
     bool whiteCanPlay = false;
