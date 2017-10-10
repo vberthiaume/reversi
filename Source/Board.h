@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #ifndef BOARD_SIZE
-#define BOARD_SIZE 8
+#define BOARD_SIZE 4
 #endif
 
 #ifndef TEST_MODE
@@ -67,8 +67,8 @@ struct Scores
 
 struct PossibleMoves 
 {
-    std::map<std::string, std::vector<SquareCoordinates>/*, SquareCoordinateCompare*/> black;
-    std::map<std::string, std::vector<SquareCoordinates>/*, SquareCoordinateCompare*/> white;
+    std::map<std::string, std::vector<SquareCoordinates>> black;
+    std::map<std::string, std::vector<SquareCoordinates>> white;
 
     bool blackCanPlay = false;
     bool whiteCanPlay = false;
@@ -134,9 +134,10 @@ public:
 private:
     void searchAllDirections(SquareCoordinates coordinate, PossibleMoves &possibleMoves_OUT);
     void searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, int searchDirR,  int searchDirC, PossibleMoves &possibleMoves_OUT);
-    bool addSquaresToTurn(bool isBlackTurn, SquareCoordinates originalCoordinates, Square &curSquare, PossibleMoves &possibleMoves_OUT);
+    bool addSquaresToTurn(bool isBlackTurn, SquareCoordinates originalCoordinates, Square &curSquare, std::vector<SquareCoordinates> &coordsToTurnCurDirection);
     bool updatePossibleMoves();
     void searchWholeBoard();
+    void addDirectionResultsToPossibleMoves(bool curIsBlack, SquareCoordinates coordinates, std::vector<SquareCoordinates> &coordsToTurnCurDirection, PossibleMoves &possibleMoves_OUT);
     void placeDisk(Square &square, std::vector<SquareCoordinates> &squareCoordsToTurn);
 
     bool isBlackTurn;
