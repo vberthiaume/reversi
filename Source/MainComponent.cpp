@@ -84,7 +84,8 @@ void MainComponent::BoardChanged(const BoardChangeEvent &event)
         return;
     }
 
-    blackScoreLabel->setText("BLACK: " + std::to_string(event.scores.black), dontSendNotification);
+    //blackScoreLabel->setText("BLACK: " + std::to_string(event.scores.black), dontSendNotification);
+    blackScoreLabel->setText("BLACK: " + String(event.scores.black), dontSendNotification);
     whiteScoreLabel->setText("WHITE: " + std::to_string(event.scores.white), dontSendNotification);
     
     if (event.isBlackTurn)

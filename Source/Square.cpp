@@ -22,15 +22,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "Square.h"
-//
-//Square::Square(int x, int c, SquareState state)
+
+//bool operator< (SquareCoordinates const& lhs, SquareCoordinates const& rhs)
 //{
-//	position = std::make_pair(x, c);
-//	m_State = state;
+//    return sqrt(lhs.r*lhs.r + lhs.c*lhs.c) < sqrt(rhs.r*rhs.r + rhs.c*rhs.c);
 //}
 //
-//Square::~Square()
+//bool operator> (SquareCoordinates const& lhs, SquareCoordinates const& rhs)
 //{
+//    return sqrt(lhs.r*lhs.r + lhs.c*lhs.c) > sqrt(rhs.r*rhs.r + rhs.c*rhs.c);
 //}
 
 

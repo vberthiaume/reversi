@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 #include <utility>
+#include <math.h>
 
 //NOTE: I could have gone with std::pair, but I find its usage pretty awkward.
 struct SquareCoordinates
@@ -31,6 +32,15 @@ struct SquareCoordinates
         : r(p_r)
         , c(p_c)
     {}
+
+    //friend bool operator< (SquareCoordinates& a, SquareCoordinates& b);
+    //friend bool operator> (SquareCoordinates& a, SquareCoordinates& b);
+
+    //bool operator() (SquareCoordinates& lhs, SquareCoordinates& rhs)
+    //{
+    //    return sqrt(lhs.r*lhs.r + lhs.c*lhs.c) > sqrt(rhs.r*rhs.r + rhs.c*rhs.c);
+    //}
+    ////float length() { return sqrt(r*r + c*c); }
 
     int r;
     int c;

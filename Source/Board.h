@@ -33,18 +33,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Square.h"
 #include <vector>
+#include <map>
+#include <string>
 
-struct Scores {
+struct Scores 
+{
     size_t black = 2;
     size_t white = 2;
 };
 
-struct PossibleMoves {
-    std::vector<SquareCoordinates> black;
-    std::vector<SquareCoordinates> white;
+//struct Move 
+//{
+//    SquareCoordinates coord;
+//    std::vector<SquareCoordinates> otherSquaresToTurn;
+//};
 
-    bool blackCanPlay;
-    bool whiteCanPlay;
+struct SquareCoordinateCompare
+{
+   bool operator() (const SquareCoordinates& lhs, const SquareCoordinates& rhs) const
+   {
+       //return lhs.id < rhs.id;
+       //return sqrt(lhs.r*lhs.r + lhs.c*lhs.c) < sqrt(rhs.r*rhs.r + rhs.c*rhs.c);
+       std::string lhsString(std::to_string(lhs.r) +  std::to_string(lhs.c));
+       std::string rhsString(std::to_string(rhs.r) +  std::to_string(rhs.c));
+       return lhsString.compare(rhsString) == 0;
+   }
+};
+
+struct PossibleMoves 
+{
+    std::map<SquareCoordinates, std::vector<SquareCoordinates>, SquareCoordinateCompare> black;
+    std::map<SquareCoordinates, std::vector<SquareCoordinates>, SquareCoordinateCompare> white;
+
+    bool blackCanPlay = false;
+    bool whiteCanPlay = false;
 };
 
 struct BoardChangeEvent
@@ -105,9 +127,9 @@ public:
 #endif
 
 private:
-    size_t searchAllDirections(bool curIsBlack, SquareCoordinates coordinate, bool actuallyTurnSquares);
-    size_t searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, int searchDirR, int searchDirC, bool actuallyTurnSquares);
-    bool addSquaresToTurn(bool isBlackTurn, std::vector<Square*> &squaresToTurn_OUT, Square &curSquare, bool justCheckForAtLeastOnePossibility);
+    void searchAllDirections(SquareCoordinates coordinate, PossibleMoves &possibleMoves_OUT);
+    void searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, int searchDirR,  int searchDirC, PossibleMoves &possibleMoves_OUT);
+    bool addSquaresToTurn(bool isBlackTurn, SquareCoordinates originalCoordinates, Square &curSquare, PossibleMoves &possibleMoves_OUT);
     bool updatePossibleMoves();
     void searchWholeBoard();
     void placeDisk(Square &square, size_t numberTurned);
