@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifndef TEST_MODE
-#define TEST_MODE 1
+#define TEST_MODE 0
 #endif
 
 #include "Square.h"
