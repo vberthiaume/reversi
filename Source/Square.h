@@ -26,24 +26,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <math.h>
 #include <string>
 
-//NOTE: I could have gone with std::pair, but I find its usage pretty awkward.
 struct SquareCoordinates
 {
     SquareCoordinates(int p_r = 0, int p_c = 0)
         : r(p_r)
         , c(p_c)
     {}
-
-    //friend bool operator< (SquareCoordinates& a, SquareCoordinates& b);
-    //friend bool operator> (SquareCoordinates& a, SquareCoordinates& b);
-
-    //bool operator() (SquareCoordinates& lhs, SquareCoordinates& rhs)
-    //{
-    //    return sqrt(lhs.r*lhs.r + lhs.c*lhs.c) > sqrt(rhs.r*rhs.r + rhs.c*rhs.c);
-    //}
-    ////float length() { return sqrt(r*r + c*c); }
-
-    std::string to_string() {return std::to_string(r) + std::to_string(c);}
 
     int r;
     int c;
