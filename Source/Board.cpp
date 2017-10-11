@@ -134,10 +134,7 @@ void Board::searchWholeBoard()
             if(board[r][c].state == Square::empty)
                 searchAllDirections(SquareCoordinates(r, c), possibleMovesTemp);
 
-    //TODO: use mutexes around possibleMoves
-    {
-        possibleMoves = possibleMovesTemp;
-    }
+    possibleMoves = possibleMovesTemp;
 }
 
 #if TEST_MODE
