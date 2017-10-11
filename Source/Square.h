@@ -23,8 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 #include <utility>
+#include <math.h>
+#include <string>
 
-//NOTE: I could have gone with std::pair, but I find its usage pretty awkward.
 struct SquareCoordinates
 {
     SquareCoordinates(int p_r = 0, int p_c = 0)

@@ -28,23 +28,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifndef TEST_MODE
-#define TEST_MODE 0
+#define TEST_MODE 1
 #endif
 
 #include "Square.h"
 #include <vector>
+#include <map>
+#include <string>
 
-struct Scores {
+struct Scores 
+{
     size_t black = 2;
     size_t white = 2;
 };
 
-struct PossibleMoves {
-    std::vector<SquareCoordinates> black;
-    std::vector<SquareCoordinates> white;
+struct CmpSquareCoordinates
+{
+    bool operator()( SquareCoordinates const& lhs, SquareCoordinates const& rhs ) const
+    {
+        if(lhs.r < rhs.r)
+            return true;
+        else if (lhs.r == rhs.r && lhs.c < rhs.c)
+                return true;
+        else 
+            return false;
+    }
+};
 
-    bool blackCanPlay;
-    bool whiteCanPlay;
+struct PossibleMoves 
+{
+
+    std::map<SquareCoordinates, std::vector<SquareCoordinates>, CmpSquareCoordinates> black;
+    std::map<SquareCoordinates, std::vector<SquareCoordinates>, CmpSquareCoordinates> white;
+
+    bool blackCanPlay = false;
+    bool whiteCanPlay = false;
 };
 
 struct BoardChangeEvent
@@ -105,12 +123,13 @@ public:
 #endif
 
 private:
-    size_t searchAllDirections(bool curIsBlack, SquareCoordinates coordinate, bool actuallyTurnSquares);
-    size_t searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, int searchDirR, int searchDirC, bool actuallyTurnSquares);
-    bool addSquaresToTurn(bool isBlackTurn, std::vector<Square*> &squaresToTurn_OUT, Square &curSquare, bool justCheckForAtLeastOnePossibility);
+    void searchAllDirections(SquareCoordinates coordinate, PossibleMoves &possibleMoves_OUT);
+    void searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, int searchDirR,  int searchDirC, PossibleMoves &possibleMoves_OUT);
+    bool addSquaresToTurn(bool isBlackTurn, Square &curSquare, std::vector<SquareCoordinates> &coordsToTurnCurDirection);
     bool updatePossibleMoves();
     void searchWholeBoard();
-    void placeDisk(Square &square, size_t numberTurned);
+    void addDirectionResultsToPossibleMoves(bool curIsBlack, SquareCoordinates coordinates, std::vector<SquareCoordinates> &coordsToTurnCurDirection, PossibleMoves &possibleMoves_OUT);
+    void placeDisk(Square &square, std::vector<SquareCoordinates> &squareCoordsToTurn);
 
     bool isBlackTurn;
 	Square board[BOARD_SIZE][BOARD_SIZE];

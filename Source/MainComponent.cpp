@@ -84,8 +84,6 @@ void MainComponent::BoardChanged(const BoardChangeEvent &event)
         return;
     }
 
-    //blackScoreLabel->setText("BLACK: " + std::to_string(event.scores.black), dontSendNotification);
-    //whiteScoreLabel->setText("WHITE: " + std::to_string(event.scores.white), dontSendNotification);
     blackScoreLabel->setText("BLACK: " + String(event.scores.black), dontSendNotification);
     whiteScoreLabel->setText("WHITE: " + String(event.scores.white), dontSendNotification);
     
@@ -103,13 +101,13 @@ void MainComponent::BoardChanged(const BoardChangeEvent &event)
 
 void MainComponent::showGameOverPopUp(size_t blackScore, size_t whiteScore)
 {
-    std::string text = "Game over! ";
+    String text("Game over! ");
     if (blackScore > whiteScore)
-        text += "Black won " + std::to_string(blackScore) + " vs " + std::to_string(whiteScore) + ".";
+        text += "Black won " + String(blackScore) + " vs " + String(whiteScore) + ".";
     else if (whiteScore > blackScore)
-        text += "White won " + std::to_string(whiteScore) + " vs " + std::to_string(blackScore) + ".";
+        text += "White won " + String(whiteScore) + " vs " + String(blackScore) + ".";
     else
-        text += "It's a tie, " + std::to_string(whiteScore) + " vs " + std::to_string(blackScore) + ".";
+        text += "It's a tie, " + String(whiteScore) + " vs " + String(blackScore) + ".";
             
     text += " Click OK to play again!";
     AlertWindow::showMessageBox(AlertWindow::InfoIcon, "Game over!", text);

@@ -13,12 +13,12 @@
                        isDebug="0" optimisation="3" targetName="Reversi"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_gui_extra" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_gui_basics" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_graphics" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_events" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_data_structures" path="..\..\sdks\JUCE-5.1.2\modules"/>
-        <MODULEPATH id="juce_core" path="..\..\sdks\JUCE-5.1.2\modules"/>
+        <MODULEPATH id="juce_gui_extra" path="JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_gui_basics" path="JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_graphics" path="JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_events" path="JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_data_structures" path="JuceLibraryCode\modules"/>
+        <MODULEPATH id="juce_core" path="JuceLibraryCode\modules"/>
       </MODULEPATHS>
     </VS2015>
   </EXPORTFORMATS>
@@ -54,11 +54,11 @@
   </MAINGROUP>
   <JUCEOPTIONS/>
   <MODULES>
-    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="1" useGlobalPath="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="1"/>
   </MODULES>
 </JUCERPROJECT>
