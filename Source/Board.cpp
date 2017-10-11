@@ -63,7 +63,8 @@ Square::SquareState Board::attemptToPlaceDisk(SquareCoordinates coordinate)
     Square &square = board[coordinate.r][coordinate.c];
     std::string coordString = coordinate.to_string();
 
-    std::vector<SquareCoordinates> &squareCoordsToTurn = isBlackTurn ? possibleMoves.black[coordString] : possibleMoves.white[coordString];
+    /*std::vector<SquareCoordinates> &squareCoordsToTurn = isBlackTurn ? possibleMoves.black[coordString] : possibleMoves.white[coordString];*/
+    std::vector<SquareCoordinates> &squareCoordsToTurn = isBlackTurn ? possibleMoves.black[coordinate] : possibleMoves.white[coordinate];
     if (squareCoordsToTurn.size() > 0)
     {
         placeDisk(square, squareCoordsToTurn);
@@ -136,7 +137,7 @@ void Board::searchWholeBoard()
             if(board[r][c].state == Square::empty)
                 searchAllDirections(SquareCoordinates(r, c), possibleMovesTemp);
 
-//need to lock this
+    //TODO: use mutexes around possibleMoves
     {
         possibleMoves = possibleMovesTemp;
     }
@@ -147,21 +148,37 @@ void Board::fillBoard()
 {
     while(updatePossibleMoves())
     {
-        bool placedDisk = false;
-        for(int r = 0; !placedDisk && r < BOARD_SIZE; ++r)
+        if (isBlackTurn && possibleMoves.blackCanPlay)
         {
-            for(int c = 0; !placedDisk && c < BOARD_SIZE; ++c)
-            {
-                int toTurn = searchAllDirections(isBlackTurn, SquareCoordinates(r, c), false);
-                if(toTurn > 0)
-                {
-                    placeDisk(board[r][c], toTurn);
-                    isBlackTurn = !isBlackTurn;
-                    boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
-                    placedDisk = true;
-                }
-            }
+            SquareCoordinates nextMove = possibleMoves.black.begin()->first;
+            placeDisk(board[nextMove.r][nextMove.c], possibleMoves.black.begin()->second);
+        } 
+        else if (!isBlackTurn && possibleMoves.whiteCanPlay)
+        {
+            SquareCoordinates nextMove = possibleMoves.white.begin()->first;
+            placeDisk(board[nextMove.r][nextMove.c], possibleMoves.white.begin()->second);
         }
+        else 
+            isBlackTurn = !isBlackTurn;
+
+        isBlackTurn = !isBlackTurn;
+        boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
+
+        //bool placedDisk = false;
+        //for(int r = 0; !placedDisk && r < BOARD_SIZE; ++r)
+        //{
+        //    for(int c = 0; !placedDisk && c < BOARD_SIZE; ++c)
+        //    {
+        //        int toTurn = searchAllDirections(isBlackTurn, SquareCoordinates(r, c));
+        //        if(toTurn > 0)
+        //        {
+        //            placeDisk(board[r][c], toTurn);
+        //            isBlackTurn = !isBlackTurn;
+        //            boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
+        //            placedDisk = true;
+        //        }
+        //    }
+        //}
     }
 }
 #endif
@@ -187,14 +204,14 @@ void Board::addDirectionResultsToPossibleMoves(bool curIsBlack, SquareCoordinate
 {
     if(curIsBlack && coordsToTurnCurDirection.size() > 0)
     {
-        possibleMoves_OUT.black[coordinates.to_string()].insert(std::end(possibleMoves_OUT.black[coordinates.to_string()]),
+        possibleMoves_OUT.black[coordinates].insert(std::end(possibleMoves_OUT.black[coordinates]),
                                                                 std::begin(coordsToTurnCurDirection),
                                                                 std::end(coordsToTurnCurDirection));
         possibleMoves_OUT.blackCanPlay = true;
     }
     else if (!curIsBlack && coordsToTurnCurDirection.size() > 0)
     {
-        possibleMoves_OUT.white[coordinates.to_string()].insert(std::end(possibleMoves_OUT.white[coordinates.to_string()]),
+        possibleMoves_OUT.white[coordinates].insert(std::end(possibleMoves_OUT.white[coordinates]),
                                                                 std::begin(coordsToTurnCurDirection),
                                                                 std::end(coordsToTurnCurDirection));
         possibleMoves_OUT.whiteCanPlay = true;
@@ -213,7 +230,7 @@ void Board::searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, i
         int c = coordinates.c + searchDirC;
         while(r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE)
         { 
-            if(addSquaresToTurn(curIsBlack, originalCoordinates, board[r][c], coordsToTurnCurDirection))
+            if(addSquaresToTurn(curIsBlack, board[r][c], coordsToTurnCurDirection))
             {
                 addDirectionResultsToPossibleMoves(curIsBlack, coordinates, coordsToTurnCurDirection, possibleMoves_OUT);
                 return;
@@ -227,7 +244,7 @@ void Board::searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, i
     else if (searchDirR == 0 && searchDirC != 0)
     {
         for (int c = coordinates.c + searchDirC; c >= 0 && c < BOARD_SIZE; c += searchDirC)
-            if (addSquaresToTurn(curIsBlack, originalCoordinates, board[coordinates.r][c], coordsToTurnCurDirection))
+            if (addSquaresToTurn(curIsBlack, board[coordinates.r][c], coordsToTurnCurDirection))
             {                
                 addDirectionResultsToPossibleMoves(curIsBlack, coordinates, coordsToTurnCurDirection, possibleMoves_OUT);
                 return;
@@ -238,7 +255,7 @@ void Board::searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, i
     else if (searchDirR != 0 && searchDirC == 0)
     {
         for (int r = coordinates.r + searchDirR; r >= 0 && r < BOARD_SIZE; r += searchDirR)
-            if (addSquaresToTurn(curIsBlack, originalCoordinates, board[r][coordinates.c], coordsToTurnCurDirection))
+            if (addSquaresToTurn(curIsBlack, board[r][coordinates.c], coordsToTurnCurDirection))
             {
                 addDirectionResultsToPossibleMoves(curIsBlack, coordinates, coordsToTurnCurDirection, possibleMoves_OUT);
                 return;
@@ -249,23 +266,11 @@ void Board::searchOneDirection(bool curIsBlack, SquareCoordinates coordinates, i
     return;
 }
 
-bool Board::addSquaresToTurn(bool curIsBlack, SquareCoordinates originalCoordinates, 
-                             Square &curSquare, std::vector<SquareCoordinates> &coordsToTurnCurDirection)
+bool Board::addSquaresToTurn(bool curIsBlack, Square &curSquare, std::vector<SquareCoordinates> &coordsToTurnCurDirection)
 {
     bool doneSearching;
-    Square::SquareState currentPlayer;
-    bool* currentPlayerCanPlay;
-    Square::SquareState otherPlayer;
-    if (curIsBlack)
-    {
-        currentPlayer           = Square::black;
-        otherPlayer             = Square::white;
-    }
-    else
-    {
-        currentPlayer           = Square::white;
-        otherPlayer             = Square::black;
-    }
+    Square::SquareState currentPlayer = curIsBlack ? Square::black : Square::white;
+    Square::SquareState otherPlayer   = curIsBlack ? Square::white : Square::black;
 
     if (curSquare.getState() == otherPlayer)
     {
