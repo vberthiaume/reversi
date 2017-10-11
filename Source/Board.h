@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifndef TEST_MODE
-#define TEST_MODE 0
+#define TEST_MODE 1
 #endif
 
 #include "Square.h"
@@ -57,8 +57,7 @@ struct CmpSquareCoordinates
 
 struct PossibleMoves 
 {
-    //std::map<std::string, std::vector<SquareCoordinates>> black;
-    //std::map<std::string, std::vector<SquareCoordinates>> white;
+
     std::map<SquareCoordinates, std::vector<SquareCoordinates>, CmpSquareCoordinates> black;
     std::map<SquareCoordinates, std::vector<SquareCoordinates>, CmpSquareCoordinates> white;
 

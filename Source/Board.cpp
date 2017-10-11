@@ -61,9 +61,6 @@ void Board::initBoard()
 Square::SquareState Board::attemptToPlaceDisk(SquareCoordinates coordinate)
 {
     Square &square = board[coordinate.r][coordinate.c];
-    std::string coordString = coordinate.to_string();
-
-    /*std::vector<SquareCoordinates> &squareCoordsToTurn = isBlackTurn ? possibleMoves.black[coordString] : possibleMoves.white[coordString];*/
     std::vector<SquareCoordinates> &squareCoordsToTurn = isBlackTurn ? possibleMoves.black[coordinate] : possibleMoves.white[coordinate];
     if (squareCoordsToTurn.size() > 0)
     {
@@ -158,27 +155,9 @@ void Board::fillBoard()
             SquareCoordinates nextMove = possibleMoves.white.begin()->first;
             placeDisk(board[nextMove.r][nextMove.c], possibleMoves.white.begin()->second);
         }
-        else 
-            isBlackTurn = !isBlackTurn;
 
         isBlackTurn = !isBlackTurn;
         boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
-
-        //bool placedDisk = false;
-        //for(int r = 0; !placedDisk && r < BOARD_SIZE; ++r)
-        //{
-        //    for(int c = 0; !placedDisk && c < BOARD_SIZE; ++c)
-        //    {
-        //        int toTurn = searchAllDirections(isBlackTurn, SquareCoordinates(r, c));
-        //        if(toTurn > 0)
-        //        {
-        //            placeDisk(board[r][c], toTurn);
-        //            isBlackTurn = !isBlackTurn;
-        //            boardChangeListenerList.notifyAllListeners(BoardChangeEvent(scores, isBlackTurn, false, 0, 0));
-        //            placedDisk = true;
-        //        }
-        //    }
-        //}
     }
 }
 #endif
